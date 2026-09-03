@@ -38,8 +38,15 @@ final class SamplingPolicyTests: XCTestCase {
         XCTAssertNil(SamplingPolicy.interval(for: demand), "suspended")
     }
 
+    func testMainWindowSamplesAtRestCadence() {
+        var demand = SamplingDemand.idle
+        demand.windowVisible = true
+        demand.interests.formUnion([.processes, .processDetails])
+        XCTAssertEqual(SamplingPolicy.interval(for: demand), .seconds(2), "800 live rows at 1 Hz cost ~5 % CPU; 2 s is the trade-off")
+    }
+
     func testNothingVisible() {
-        let demand = SamplingDemand(interests: [], popoverVisible: false, screenAsleep: false, thermalState: .nominal)
+        let demand = SamplingDemand(interests: [], popoverVisible: false, windowVisible: false, screenAsleep: false, thermalState: .nominal)
         XCTAssertEqual(SamplingPolicy.interval(for: demand), .seconds(5))
     }
 }
