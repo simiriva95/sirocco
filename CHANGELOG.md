@@ -1,5 +1,16 @@
 # Changelog
 
+## M2 — 2026-09-03
+
+- Main window (AppKit-owned, SwiftUI content): app switches Dock/menu presence on open/close.
+- Processes tab: `NSOutlineView` with sortable, reorderable, hideable, autosaved columns
+  (name, pid, energy, CPU, memory, threads, wakeups, disk read/write, user); apps grouped with
+  their helpers as expandable rows with totals; search by name or pid; details inspector.
+- Terminate / Force Quit from context menu, inspector, or ⌘⌫ / ⌘⌥⌫ with group confirmation.
+- Keyboard: ⌘1…⌘5 tabs, ⌘F search, ↩ details, ⌘O open window; global hotkey ⌃⌥S for the popover.
+- Thread counts (`PROC_PIDTASKINFO`) sampled only while the Processes tab is visible.
+- Cadence: main window samples at 2 s; deterministic pid tie-break in all sorts.
+
 ## M1 — 2026-09-03
 
 - Menu bar item with runtime-drawn sparkline (auto-ranged) and thermal glyph; template image in

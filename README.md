@@ -7,9 +7,13 @@ why, and how do I stop it?"**
 - **Menu bar**: a live sparkline plus a thermal glyph, drawn at runtime. One click opens a
   popover with a one-sentence diagnosis, CPU / memory / thermal mini-charts, the top
   consumers grouped by app, and inline terminate (SIGTERM, explicit escalation to SIGKILL).
-- **Main window** *(M2+)*: Overview, Processes, Performance, Sensors, Startup.
+- **Main window**: Overview, Processes, Performance, Sensors, Startup. The Processes tab is
+  complete: sortable, reorderable, hideable columns (right-click the header), search, apps
+  grouped with their helpers as expandable rows, a details inspector, terminate / force quit.
+  Everything works from the keyboard: ⌘1…⌘5 tabs, ⌘F search, ↩ details, ⌘⌫ terminate,
+  ⌘⌥⌫ force quit, ⌃⌥S toggles the popover from anywhere.
 
-Status: **M1** (menu bar, thermal state, processes, kill) — usable daily, not yet a product.
+Status: **M2** (menu bar + Processes window) — usable daily, not yet a product.
 
 ## Install
 
@@ -85,10 +89,19 @@ Measured on an M4 Pro (macOS 26.3) with Sirocco's own process row and `top`, Rel
 |---|---|---|
 | Menu bar only, 2 s sampling | 0.1–0.3 % | 15 MB |
 | Popover open, 1 s sampling, ~800 processes | 1.0–1.4 % | ~40–150 MB (SwiftUI + app icons) |
+| Processes window open, 2 s sampling, ~300 rows + threads | 2.0–3.7 % | ~60–70 MB |
 
-Sampling cadence: 1 s with the popover open, 2 s at rest, 5 s when nothing is visible,
-suspended while the screens sleep, and **doubled** under `.critical` thermal state — a
-monitor must consume less when the machine is hot, not more.
+Sampling cadence: 1 s with the popover open, 2 s at rest or with the main window (Activity
+Monitor defaults to 5 s), 5 s when nothing is visible, suspended while the screens sleep,
+and **doubled** under `.critical` thermal state — a monitor must consume less when the
+machine is hot, not more.
+
+The Processes table is an `NSOutlineView`, not a SwiftUI `Table`. Measured in Release: the
+SwiftUI table re-inserted rows with automatic heights on every tick (8–9 % CPU); the
+outline view gets fixed-height rows, item objects reused across ticks, text updated only
+where it changed, and sort keys quantized to the displayed precision so rows do not swap
+over invisible jitter. Live re-sorting is the remaining cost, which is why the window
+samples at 2 s.
 
 Longevity check for M1: 2.5 minutes of opening/closing the popover every 2 s
 (`SIROCCO_POPOVER=cycle`), then `leaks` → `0 leaks for 0 total leaked bytes`. All histories
@@ -108,6 +121,10 @@ set on every tick.
   itself) are never signalled.
 - **Startup items** (M4) will list and disable user LaunchAgents; system agents/daemons are
   read-only and third-party login items are not enumerable without root.
+- **Grouping follows macOS's notion of responsibility.** XPC services the system spawns on an
+  app's behalf are attributed to that app, so Sirocco itself shows two or three "processes".
+- **The global hotkey uses Carbon `RegisterEventHotKey`** (deprecated, still the only public
+  API that needs no Accessibility permission). Fixed to ⌃⌥S until Settings grow a recorder.
 
 ## Development
 
@@ -118,7 +135,8 @@ Sources/
   Diagnosis/      pure: rules → structured verdict
   Sampling/       Sampler actor, cadence policy, main-actor MetricsStore
   Processes/      identity/icon cache, termination policy, terminator
-  MenuBar/        NSStatusItem, Core Graphics icon renderer, SwiftUI popover
+  MenuBar/        NSStatusItem, Core Graphics icon renderer, SwiftUI popover, Carbon hotkey
+  Windows/        AppKit-owned main window, NSOutlineView process table, inspector
   DesignSystem/   tokens + the one place a time series becomes a path
   Settings/       UserDefaults-backed settings, Settings scene
   Licensing/      LicenseGating protocol (stub; phase 2)
@@ -129,6 +147,7 @@ Swift 6 with strict concurrency, SwiftUI + AppKit, zero third-party dependencies
 Xcode project is generated from `project.yml`; never edit the `.xcodeproj`.
 
 Debug switches: `SIROCCO_POPOVER=open|cycle` drives the popover without a mouse;
+`SIROCCO_WINDOW=1` opens the main window at launch;
 `SIROCCO_LOG_SELF=1` logs Sirocco's own cost via `os_log` (subsystem `it.simoneriva.sirocco`).
 
 ## License
