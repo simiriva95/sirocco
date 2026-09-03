@@ -421,6 +421,336 @@
           }
         }
       }
+    },
+    "Overview": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Panoramica"
+          }
+        }
+      }
+    },
+    "Processes": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processi"
+          }
+        }
+      }
+    },
+    "Performance": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prestazioni"
+          }
+        }
+      }
+    },
+    "Sensors": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sensori"
+          }
+        }
+      }
+    },
+    "Startup": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvio"
+          }
+        }
+      }
+    },
+    "Coming in a later milestone.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In arrivo in una milestone successiva."
+          }
+        }
+      }
+    },
+    "Section": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sezione"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome"
+          }
+        }
+      }
+    },
+    "PID": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PID"
+          }
+        }
+      }
+    },
+    "Energy": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Energia"
+          }
+        }
+      }
+    },
+    "% CPU": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "% CPU"
+          }
+        }
+      }
+    },
+    "Threads": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thread"
+          }
+        }
+      }
+    },
+    "Wakeups/s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risvegli/s"
+          }
+        }
+      }
+    },
+    "Read/s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lettura/s"
+          }
+        }
+      }
+    },
+    "Write/s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrittura/s"
+          }
+        }
+      }
+    },
+    "User": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utente"
+          }
+        }
+      }
+    },
+    "Show Details": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra dettagli"
+          }
+        }
+      }
+    },
+    "No matching processes": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun processo corrispondente"
+          }
+        }
+      }
+    },
+    "No selection": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna selezione"
+          }
+        }
+      }
+    },
+    "Parent PID": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PID padre"
+          }
+        }
+      }
+    },
+    "Memory (footprint)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria (footprint)"
+          }
+        }
+      }
+    },
+    "Resident (RSS)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Residente (RSS)"
+          }
+        }
+      }
+    },
+    "Package wakeups/s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risvegli package/s"
+          }
+        }
+      }
+    },
+    "Interrupt wakeups/s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Risvegli interrupt/s"
+          }
+        }
+      }
+    },
+    "Path": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Percorso"
+          }
+        }
+      }
+    },
+    "Available 3 s after Terminate if the process is still running.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disponibile 3 s dopo Termina se il processo è ancora attivo."
+          }
+        }
+      }
+    },
+    "Open Sirocco": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apri Sirocco"
+          }
+        }
+      }
+    },
+    "Find": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trova"
+          }
+        }
+      }
+    },
+    "Process": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processo"
+          }
+        }
+      }
+    },
+    "Force quit %@?": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uscita forzata di %@?"
+          }
+        }
+      }
+    },
+    "Terminate %@?": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminare %@?"
+          }
+        }
+      }
+    },
+    "SIGKILL cannot be caught: unsaved data in these processes is lost.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SIGKILL non può essere intercettato: i dati non salvati di questi processi vanno persi."
+          }
+        }
+      }
+    },
+    "The processes receive SIGTERM and may save their state before exiting.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I processi ricevono SIGTERM e possono salvare lo stato prima di uscire."
+          }
+        }
+      }
     }
   }
 }

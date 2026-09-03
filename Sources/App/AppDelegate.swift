@@ -5,21 +5,31 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let settings = AppSettings()
     let store = MetricsStore()
     let terminator = ProcessTerminator()
+    private(set) lazy var mainModel = MainWindowModel(store: store, terminator: terminator)
+    private(set) lazy var mainWindow = MainWindowController(model: mainModel, store: store, terminator: terminator)
     private var sampler: Sampler?
     private var statusItem: StatusItemController?
+    private var hotKey: GlobalHotKey?
     private var observers: [any NSObjectProtocol] = []
     private var popoverVisible = false
+    private var windowVisible = false
     private var screenAsleep = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         let sampler = Sampler(store: store)
         self.sampler = sampler
-        let statusItem = StatusItemController(store: store, settings: settings, terminator: terminator)
+        let statusItem = StatusItemController(store: store, settings: settings, terminator: terminator,
+                                              openMainWindow: { [weak self] in self?.showMainWindow() })
         statusItem.onPopoverVisibility = { [weak self] visible in
             self?.popoverVisible = visible
             self?.pushDemand()
         }
         self.statusItem = statusItem
+        mainWindow.onVisibility = { [weak self] visible in
+            self?.windowVisible = visible
+            self?.pushDemand()
+        }
+        hotKey = GlobalHotKey { [weak self] in self?.statusItem?.toggle() }
 
         let center = NSWorkspace.shared.notificationCenter
         for (name, asleep) in [(NSWorkspace.screensDidSleepNotification, true), (NSWorkspace.screensDidWakeNotification, false)] {
@@ -35,15 +45,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         applyDebugFlags()
     }
 
-    private func pushDemand() {
-        let demand = SamplingDemand(
-            interests: popoverVisible ? [.systemOverview, .processes] : [.systemOverview],
-            popoverVisible: popoverVisible, screenAsleep: screenAsleep, thermalState: store.thermalState)
+    func showMainWindow() {
+        mainWindow.show()
+    }
+
+    /// Re-evaluated whenever a surface appears/disappears or the window's tab changes.
+    func pushDemand() {
+        var interests: Set<SamplingInterest> = [.systemOverview]
+        if popoverVisible { interests.insert(.processes) }
+        if windowVisible && mainModel.tab == .processes { interests.formUnion([.processes, .processDetails]) }
+        let demand = SamplingDemand(interests: interests, popoverVisible: popoverVisible, windowVisible: windowVisible,
+                                    screenAsleep: screenAsleep, thermalState: store.thermalState)
         Task { [sampler] in await sampler?.setDemand(demand) }
     }
 
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        showMainWindow()   // Dock icon click while the window is open
+        return false
+    }
+
     /// Development-only switches, read once. SIROCCO_LOG_SELF prints our own cost per tick
-    /// (README numbers); SIROCCO_POPOVER=cycle|open drives the popover for leak soaks / steady-state cost.
+    /// (README numbers); SIROCCO_POPOVER=cycle|open drives the popover; SIROCCO_WINDOW=1 opens the main window.
     private func applyDebugFlags() {
         let env = ProcessInfo.processInfo.environment
         store.logSelf = env["SIROCCO_LOG_SELF"] != nil
@@ -62,5 +84,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         default: break
         }
+        if env["SIROCCO_WINDOW"] != nil { showMainWindow() }
     }
 }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PopoverView: View {
     var close: () -> Void
+    var openWindow: () -> Void
 
     @Environment(MetricsStore.self) private var store
     @Environment(ProcessTerminator.self) private var terminator
@@ -106,6 +107,8 @@ struct PopoverView: View {
                     .font(DS.Typography.secondary).foregroundStyle(.secondary)
             }
             Spacer()
+            Button(String(localized: "Open Sirocco")) { openWindow() }
+                .buttonStyle(.link).font(DS.Typography.secondary)
             Button(String(localized: "Quit")) { NSApp.terminate(nil) }
                 .buttonStyle(.link).font(DS.Typography.secondary)
         }
@@ -122,16 +125,8 @@ struct PopoverView: View {
     }
 
     private func report(_ outcomes: [(ProcessSample, ProcessTerminator.Outcome)]) {
-        let messages = outcomes.compactMap { sample, outcome -> String? in
-            let name = store.identities.identity(for: sample).name
-            switch outcome {
-            case .signalled, .failed(.noSuchProcess): return nil
-            case .denied(.systemCritical): return String(localized: "\(name) is protected by the system and cannot be terminated.")
-            case .denied(.otherUser): return String(localized: "\(name) belongs to another user. Terminating it needs administrator privileges.")
-            case .denied(.ownProcess): return String(localized: "Sirocco won't terminate itself. Use Quit.")
-            case .failed(.notPermitted): return String(localized: "Permission denied by macOS (EPERM). \(name) is protected.")
-            case .failed(.other(let code)): return String(localized: "Signal failed for \(name) (errno \(code)).")
-            }
+        let messages = outcomes.compactMap { sample, outcome in
+            TerminationMessages.text(for: outcome, name: store.identities.identity(for: sample).name)
         }
         if !messages.isEmpty { failureMessage = messages.joined(separator: "\n") }
     }
