@@ -64,7 +64,7 @@ actor Sampler {
         var processes: [ProcessSample]?
         var responsible: [Int32: Int32] = [:]
         if demand.interests.contains(.processes) {
-            let counters = enumerator.snapshot()
+            let counters = enumerator.snapshot(includeThreads: demand.interests.contains(.processDetails))
             processes = deltaTracker.update(with: counters, elapsedSeconds: elapsedSeconds)
             let alive = Set(counters.map(\.id.pid))
             responsibleCache = responsibleCache.filter { alive.contains($0.key) }

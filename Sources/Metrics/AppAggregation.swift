@@ -25,10 +25,10 @@ enum AppAggregation {
         }
         let byPID = Dictionary(uniqueKeysWithValues: samples.map { ($0.pid, $0) })
         return buckets.map { leaderPID, members in
-            let sorted = members.sorted { $0.energyImpact > $1.energyImpact }
+            let sorted = members.sorted { ($0.energyImpact, $1.pid) > ($1.energyImpact, $0.pid) }
             let leader = byPID[leaderPID] ?? sorted[0]
             return ProcessGroup(leader: leader, members: sorted)
         }
-        .sorted { $0.energyImpact > $1.energyImpact }
+        .sorted { ($0.energyImpact, $1.leader.pid) > ($1.energyImpact, $0.leader.pid) }   // deterministic: ties by pid
     }
 }

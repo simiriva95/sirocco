@@ -4,6 +4,7 @@ import Foundation
 enum SamplingInterest: Hashable, Sendable {
     case systemOverview     // CPU total, memory, thermal — the menu bar icon
     case processes          // process enumeration + per-process rusage
+    case processDetails     // + thread counts (one extra syscall per pid; Processes tab only)
     case perCore            // per-core breakdown (Performance tab, M3)
 }
 
@@ -11,15 +12,17 @@ enum SamplingInterest: Hashable, Sendable {
 struct SamplingDemand: Equatable, Sendable {
     var interests: Set<SamplingInterest>
     var popoverVisible: Bool
+    var windowVisible: Bool
     var screenAsleep: Bool
     var thermalState: ProcessInfo.ThermalState
 
-    static let idle = SamplingDemand(interests: [.systemOverview], popoverVisible: false,
+    static let idle = SamplingDemand(interests: [.systemOverview], popoverVisible: false, windowVisible: false,
                                      screenAsleep: false, thermalState: .nominal)
 }
 
 /// Pure interval policy:
-///   1s with the popover open · 2s at rest · 5s when nothing is visible ·
+///   1s with the popover open · 2s at rest or with the main window (Activity Monitor defaults to 5s) ·
+///   5s when nothing is visible ·
 ///   ×2 under `.critical` thermal state (a monitor must consume less when the machine is hot).
 enum SamplingPolicy {
     static let popoverInterval: Duration = .seconds(1)

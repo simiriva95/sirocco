@@ -15,7 +15,7 @@ final class ProcessEnumerator {
     deinit { buffer.deallocate() }
 
     /// Static + cumulative facts for every readable, non-zombie process.
-    func snapshot() -> [ProcessCounters] {
+    func snapshot(includeThreads: Bool = false) -> [ProcessCounters] {
         guard let count = fillBuffer() else { return [] }
         var result: [ProcessCounters] = []
         result.reserveCapacity(count)
@@ -41,7 +41,7 @@ final class ProcessEnumerator {
                 diskBytesWritten: usage.ri_diskio_byteswritten,
                 physFootprintBytes: usage.ri_phys_footprint,
                 residentBytes: usage.ri_resident_size,
-                threadCount: nil))   // ponytail: PROC_PIDTASKINFO costs a syscall per pid; added with the Processes tab (M2)
+                threadCount: includeThreads ? Self.threadCount(pid: pid) : nil))
         }
         return result
     }
@@ -71,6 +71,14 @@ final class ProcessEnumerator {
             proc_pid_rusage(pid, RUSAGE_INFO_V4, UnsafeMutableRawPointer(pointer).assumingMemoryBound(to: rusage_info_t?.self))
         }
         return result == 0 ? info : nil
+    }
+
+    /// `PROC_PIDTASKINFO` is only readable for our own processes (EPERM otherwise) → nil.
+    static func threadCount(pid: Int32) -> Int? {
+        var info = proc_taskinfo()
+        let size = Int32(MemoryLayout<proc_taskinfo>.size)
+        let written = withUnsafeMutablePointer(to: &info) { proc_pidinfo(pid, PROC_PIDTASKINFO, 0, $0, size) }
+        return written == size ? Int(info.pti_threadnum) : nil
     }
 
     static func isAlive(pid: Int32) -> Bool {
