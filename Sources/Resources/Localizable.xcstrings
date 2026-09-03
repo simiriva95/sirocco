@@ -1,0 +1,426 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "All quiet.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutto regolare."
+          }
+        }
+      }
+    },
+    "Warming up.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura in salita."
+          }
+        }
+      }
+    },
+    "Warming up. Top consumer: %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura in salita. Maggior consumatore: %@"
+          }
+        }
+      }
+    },
+    "CPU under load. Top consumer: %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU sotto carico. Maggior consumatore: %@"
+          }
+        }
+      }
+    },
+    "Hot for %@. Likely cause: %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scalda da %1$@. Causa probabile: %2$@"
+          }
+        }
+      }
+    },
+    "Hot for %@. No single culprit.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scalda da %@. Nessun colpevole evidente."
+          }
+        }
+      }
+    },
+    "%lld min": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld min"
+          }
+        }
+      }
+    },
+    "%lld s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld s"
+          }
+        }
+      }
+    },
+    "%@ (graphics)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (grafica)"
+          }
+        }
+      }
+    },
+    "CPU": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU"
+          }
+        }
+      }
+    },
+    "Memory": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memoria"
+          }
+        }
+      }
+    },
+    "Thermal": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Termico"
+          }
+        }
+      }
+    },
+    "Thermal state": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stato termico"
+          }
+        }
+      }
+    },
+    "Nominal": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nominale"
+          }
+        }
+      }
+    },
+    "Fair": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moderato"
+          }
+        }
+      }
+    },
+    "Serious": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alto"
+          }
+        }
+      }
+    },
+    "Critical": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Critico"
+          }
+        }
+      }
+    },
+    "Unknown": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sconosciuto"
+          }
+        }
+      }
+    },
+    "Search processes": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerca processi"
+          }
+        }
+      }
+    },
+    "%lld processes": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld processi"
+          }
+        }
+      }
+    },
+    "Loading…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caricamento…"
+          }
+        }
+      }
+    },
+    "Quit": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esci"
+          }
+        }
+      }
+    },
+    "Quit Sirocco": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esci da Sirocco"
+          }
+        }
+      }
+    },
+    "Settings…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impostazioni…"
+          }
+        }
+      }
+    },
+    "Terminate": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Termina"
+          }
+        }
+      }
+    },
+    "Force Quit": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uscita forzata"
+          }
+        }
+      }
+    },
+    "Terminate %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Termina %@"
+          }
+        }
+      }
+    },
+    "Force Quit %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uscita forzata di %@"
+          }
+        }
+      }
+    },
+    "Terminate %@ and its %lld processes?": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terminare %1$@ e i suoi %2$lld processi?"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annulla"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "Couldn't terminate": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossibile terminare"
+          }
+        }
+      }
+    },
+    "%@ is protected by the system and cannot be terminated.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ è protetto dal sistema e non può essere terminato."
+          }
+        }
+      }
+    },
+    "%@ belongs to another user. Terminating it needs administrator privileges.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ appartiene a un altro utente. Servono privilegi di amministratore."
+          }
+        }
+      }
+    },
+    "Sirocco won't terminate itself. Use Quit.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sirocco non termina se stesso. Usa Esci."
+          }
+        }
+      }
+    },
+    "Permission denied by macOS (EPERM). %@ is protected.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permesso negato da macOS (EPERM). %@ è protetto."
+          }
+        }
+      }
+    },
+    "Signal failed for %@ (errno %lld).": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segnale fallito per %1$@ (errno %2$lld)."
+          }
+        }
+      }
+    },
+    "Sirocco · %@ CPU · %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sirocco · %1$@ CPU · %2$@"
+          }
+        }
+      }
+    },
+    "Sirocco system monitor": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sirocco, monitor di sistema"
+          }
+        }
+      }
+    },
+    "Thermal %@, CPU %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Termico %1$@, CPU %2$@"
+          }
+        }
+      }
+    },
+    "Menu bar icon shows": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'icona nella barra mostra"
+          }
+        }
+      }
+    },
+    "Launch at login": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvia al login"
+          }
+        }
+      }
+    }
+  }
+}
