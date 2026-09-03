@@ -1,0 +1,4 @@
+module CShims [system] {
+    header "CShims.h"
+    export *
+}
