@@ -11,6 +11,7 @@ struct MainWindowView: View {
             Divider()
             switch model.tab {
             case .processes: ProcessesTab()
+            case .performance: PerformanceTab()
             default: ContentUnavailableView(model.tab.title, systemImage: "hammer",
                                             description: Text("Coming in a later milestone."))
             }
@@ -44,11 +45,13 @@ struct MainWindowView: View {
             .fixedSize()
             .accessibilityLabel(String(localized: "Section"))
             Spacer()
-            TextField(String(localized: "Search processes"), text: $model.query)
-                .textFieldStyle(.roundedBorder)
-                .frame(width: 220)
-                .focused($searchFocused)
-                .accessibilityLabel(String(localized: "Search processes"))
+            if model.tab == .processes {
+                TextField(String(localized: "Search processes"), text: $model.query)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 220)
+                    .focused($searchFocused)
+                    .accessibilityLabel(String(localized: "Search processes"))
+            }
         }
         .padding(.horizontal, DS.Spacing.l)
         .padding(.top, 30)     // room for the traffic lights (transparent titlebar, hidden title)

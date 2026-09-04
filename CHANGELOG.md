@@ -1,5 +1,16 @@
 # Changelog
 
+## M3 — 2026-09-03
+
+- Performance tab: 1/5/15 min windows; CPU total + P/E lines and per-core heatmap grouped by
+  kind; memory stacked (app / wired / compressed / cached) against physical RAM with swap line;
+  disk read/write; network for the three busiest interfaces (↓/↑); thermal state strip.
+- Shared chart engine (`TimeSeriesChart`, `CoreHeatmap`, `ChartCard`): one grid, one axis, one
+  time mapping by absolute timestamps, so cadence changes never distort the x axis.
+- Sampling: disk (`IOBlockStorageDriver`) and network (`getifaddrs`) counters every tick,
+  32-bit wraparound handled; one aligned `PerformanceSample` history of 900 entries.
+- Fix: rows in the popover and the Processes table hold their order while the pointer is over them.
+
 ## M2 — 2026-09-03
 
 - Main window (AppKit-owned, SwiftUI content): app switches Dock/menu presence on open/close.

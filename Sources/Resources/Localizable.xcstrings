@@ -751,6 +751,246 @@
           }
         }
       }
+    },
+    "Window": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finestra"
+          }
+        }
+      }
+    },
+    "1 min": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 min"
+          }
+        }
+      }
+    },
+    "5 min": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 min"
+          }
+        }
+      }
+    },
+    "15 min": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "15 min"
+          }
+        }
+      }
+    },
+    "Collecting samples…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Raccolta campioni…"
+          }
+        }
+      }
+    },
+    "Total": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Totale"
+          }
+        }
+      }
+    },
+    "Performance cores": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core Performance"
+          }
+        }
+      }
+    },
+    "Efficiency cores": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Core Efficiency"
+          }
+        }
+      }
+    },
+    "Total %@, performance cores %@, efficiency cores %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Totale %1$@, core Performance %2$@, core Efficiency %3$@"
+          }
+        }
+      }
+    },
+    "App": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        }
+      }
+    },
+    "Wired": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wired"
+          }
+        }
+      }
+    },
+    "Compressed": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compressa"
+          }
+        }
+      }
+    },
+    "Cached files": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File in cache"
+          }
+        }
+      }
+    },
+    "Used %@ of %@, pressure %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usata %1$@ di %2$@, pressione %3$@"
+          }
+        }
+      }
+    },
+    "normal": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "normale"
+          }
+        }
+      }
+    },
+    "elevated": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "elevata"
+          }
+        }
+      }
+    },
+    "Swap used: %@ of %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swap usato: %1$@ di %2$@"
+          }
+        }
+      }
+    },
+    "Read": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lettura"
+          }
+        }
+      }
+    },
+    "Write": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scrittura"
+          }
+        }
+      }
+    },
+    "Disk": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disco"
+          }
+        }
+      }
+    },
+    "Read %@, write %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lettura %1$@, scrittura %2$@"
+          }
+        }
+      }
+    },
+    "Network": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rete"
+          }
+        }
+      }
+    },
+    "No network traffic in this window.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun traffico di rete in questa finestra."
+          }
+        }
+      }
+    },
+    "Power draw and temperatures need sensor access — coming with the Sensors tab.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Potenza assorbita e temperature richiedono l'accesso ai sensori: in arrivo con la scheda Sensori."
+          }
+        }
+      }
     }
   }
 }

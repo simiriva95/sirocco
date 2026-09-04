@@ -84,6 +84,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
         default: break
         }
-        if env["SIROCCO_WINDOW"] != nil { showMainWindow() }
+        if let tab = env["SIROCCO_WINDOW"] {   // "1" or a tab name: processes|performance|…
+            if let index = ["overview", "processes", "performance", "sensors", "startup"].firstIndex(of: tab) { mainModel.tab = MainTab(rawValue: index)! }
+            showMainWindow()
+        }
     }
 }

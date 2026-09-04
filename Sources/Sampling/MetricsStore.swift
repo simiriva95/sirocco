@@ -11,6 +11,8 @@ final class MetricsStore {
     private(set) var cpuHistory = RingBuffer<Double>(capacity: historyCapacity)
     private(set) var memoryHistory = RingBuffer<Double>(capacity: historyCapacity)
     private(set) var thermalHistory = RingBuffer<ThermalEvent>(capacity: historyCapacity)
+    /// Everything the Performance tab plots, one aligned sample per tick (skips the first tick).
+    private(set) var performance = RingBuffer<PerformanceSample>(capacity: historyCapacity)
     private(set) var groups: [ProcessGroup] = []
     private(set) var diagnosis: Diagnosis = .nominal
     /// Our own footprint, shown in the popover footer and used for the README numbers.
@@ -28,7 +30,12 @@ final class MetricsStore {
 
     func ingest(_ snapshot: SystemSnapshot) {
         latest = snapshot
-        if let cpu = snapshot.cpu { cpuHistory.append(cpu.total) }
+        if let cpu = snapshot.cpu {
+            cpuHistory.append(cpu.total)
+            performance.append(PerformanceSample(timestamp: snapshot.timestamp, cpu: cpu, memory: snapshot.memory,
+                                                 disk: snapshot.disk ?? .zero, network: snapshot.network,
+                                                 thermalLevel: snapshot.thermalState.level))
+        }
         memoryHistory.append(snapshot.memory.usedFraction)
         thermalHistory.append(ThermalEvent(timestamp: snapshot.timestamp, state: snapshot.thermalState))
 

@@ -13,6 +13,7 @@ actor Sampler {
     private var previousTicks: [CPUTicks]?
     private var lastTick: ContinuousClock.Instant?
     private var deltaTracker = ProcessDeltaTracker()
+    private var throughput = ThroughputTracker()
     private var responsibleCache: [Int32: Int32?] = [:]
 
     init(store: MetricsStore) {
@@ -61,6 +62,8 @@ actor Sampler {
         }
         previousTicks = ticks
 
+        let rates = throughput.update(disk: DiskStatistics.read(), interfaces: NetworkCounters.read(), elapsed: elapsedSeconds)
+
         var processes: [ProcessSample]?
         var responsible: [Int32: Int32] = [:]
         if demand.interests.contains(.processes) {
@@ -80,6 +83,7 @@ actor Sampler {
             timestamp: Date(), cpu: cpu,
             memory: MachHost.memoryLoad(totalBytes: totalMemory) ?? .zero,
             thermalState: ProcessInfo.processInfo.thermalState,
+            disk: rates.disk, network: rates.network,
             processes: processes, responsiblePIDs: responsible)
         Task { @MainActor [store] in store.ingest(snapshot) }
     }

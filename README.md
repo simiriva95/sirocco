@@ -13,7 +13,12 @@ why, and how do I stop it?"**
   Everything works from the keyboard: ⌘1…⌘5 tabs, ⌘F search, ↩ details, ⌘⌫ terminate,
   ⌘⌥⌫ force quit, ⌃⌥S toggles the popover from anywhere.
 
-Status: **M2** (menu bar + Processes window) — usable daily, not yet a product.
+- **Performance tab**: 1 / 5 / 15-minute sliding windows, no persistence. CPU total with the
+  Performance/Efficiency split and a per-core heatmap, memory stacked by type, disk read/write,
+  network per interface, thermal state over time. All charts are hand-drawn `Canvas` code
+  sharing one axis/grid implementation.
+
+Status: **M3** (menu bar, Processes, Performance) — usable daily, not yet a product.
 
 ## Install
 
@@ -50,6 +55,8 @@ Requirements: macOS 14+, Apple Silicon (arm64 only — Intel is not supported).
 | Per-process CPU, wakeups, disk I/O | `proc_pid_rusage(RUSAGE_INFO_V4)` as deltas | Times are mach absolute units; converted with `mach_timebase_info`. |
 | Per-process memory | `ri_phys_footprint` | What Activity Monitor calls "Memory". RSS is kept but not shown. |
 | Process list | one `sysctl(KERN_PROC_ALL)` into a reused buffer | No per-tick allocation once the process count is stable. |
+| Disk throughput | `IOBlockStorageDriver` → `Statistics` (`Bytes (Read)` / `Bytes (Write)`), delta | Physical drives, not volumes. |
+| Network throughput | `getifaddrs` → `if_data` per interface, delta | Counters are 32-bit and wrap every 4 GB; the delta code knows. Loopback excluded. |
 | App grouping | `responsibility_get_pid_responsible_for_pid` | Exported by libSystem, no public header. Used only for grouping. |
 
 ### Energy impact
@@ -90,6 +97,7 @@ Measured on an M4 Pro (macOS 26.3) with Sirocco's own process row and `top`, Rel
 | Menu bar only, 2 s sampling | 0.1–0.3 % | 15 MB |
 | Popover open, 1 s sampling, ~800 processes | 1.0–1.4 % | ~40–150 MB (SwiftUI + app icons) |
 | Processes window open, 2 s sampling, ~300 rows + threads | 2.0–3.7 % | ~60–70 MB |
+| Performance tab open, 2 s sampling, five charts + 14-core heatmap | 1.4–2.2 % | ~160 MB |
 
 Sampling cadence: 1 s with the popover open, 2 s at rest or with the main window (Activity
 Monitor defaults to 5 s), 5 s when nothing is visible, suspended while the screens sleep,
@@ -137,7 +145,7 @@ Sources/
   Processes/      identity/icon cache, termination policy, terminator
   MenuBar/        NSStatusItem, Core Graphics icon renderer, SwiftUI popover, Carbon hotkey
   Windows/        AppKit-owned main window, NSOutlineView process table, inspector
-  DesignSystem/   tokens + the one place a time series becomes a path
+  DesignSystem/   tokens, sparkline geometry, TimeSeriesChart / CoreHeatmap / ChartCard
   Settings/       UserDefaults-backed settings, Settings scene
   Licensing/      LicenseGating protocol (stub; phase 2)
 Tests/            Metrics, Diagnosis, aggregation, policies — fixtures, no I/O
@@ -147,7 +155,7 @@ Swift 6 with strict concurrency, SwiftUI + AppKit, zero third-party dependencies
 Xcode project is generated from `project.yml`; never edit the `.xcodeproj`.
 
 Debug switches: `SIROCCO_POPOVER=open|cycle` drives the popover without a mouse;
-`SIROCCO_WINDOW=1` opens the main window at launch;
+`SIROCCO_WINDOW=1|processes|performance|…` opens the main window (on a tab) at launch;
 `SIROCCO_LOG_SELF=1` logs Sirocco's own cost via `os_log` (subsystem `it.simoneriva.sirocco`).
 
 ## License
