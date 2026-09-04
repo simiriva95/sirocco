@@ -6,7 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let store = MetricsStore()
     let terminator = ProcessTerminator()
     private(set) lazy var mainModel = MainWindowModel(store: store, terminator: terminator)
-    private(set) lazy var mainWindow = MainWindowController(model: mainModel, store: store, terminator: terminator)
+    private(set) lazy var mainWindow = MainWindowController(model: mainModel, store: store, terminator: terminator, settings: settings)
     private var sampler: Sampler?
     private var statusItem: StatusItemController?
     private var hotKey: GlobalHotKey?
@@ -42,8 +42,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             })
         }
 
+        terminator.displayName = { [store] in store.identities.identity(for: $0).name }
+        observeSettings()
         Task { await sampler.start() }
         applyDebugFlags()
+    }
+
+    /// Re-armed after each change (withObservationTracking fires once per registration).
+    private func observeSettings() {
+        withObservationTracking {
+            NSApp.appearance = switch settings.theme {
+            case .system: nil
+            case .light: NSAppearance(named: .aqua)
+            case .dark: NSAppearance(named: .darkAqua)
+            }
+            terminator.policy.userProtected = Set(settings.protectedNames)
+            _ = settings.restIntervalSeconds
+        } onChange: { [weak self] in
+            Task { @MainActor [weak self] in
+                self?.observeSettings()
+                self?.pushDemand()
+            }
+        }
     }
 
     func showMainWindow() {
@@ -56,8 +76,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if popoverVisible { interests.insert(.processes) }
         if windowVisible && mainModel.tab == .processes { interests.formUnion([.processes, .processDetails]) }
         if windowVisible && mainModel.tab == .sensors { interests.insert(.sensors) }
+        if windowVisible && mainModel.tab == .overview { interests.formUnion([.processes, .sensors]) }
         let demand = SamplingDemand(interests: interests, popoverVisible: popoverVisible, windowVisible: windowVisible,
-                                    screenAsleep: screenAsleep, thermalState: store.thermalState)
+                                    screenAsleep: screenAsleep, thermalState: store.thermalState, restSeconds: settings.restIntervalSeconds)
         Task { [sampler] in await sampler?.setDemand(demand) }
     }
 

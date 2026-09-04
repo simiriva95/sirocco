@@ -23,8 +23,18 @@ why, and how do I stop it?"**
   full raw sensor list. Every card says "Not available on this Mac" instead of showing zeros.
 - **Startup tab**: user LaunchAgents (toggle on/off), system LaunchAgents and LaunchDaemons
   (read-only), a shortcut to the Login Items settings pane.
+- **Overview**: the diagnosis, CPU / memory / thermal at a glance with 5-minute history, top
+  five consumers by CPU, memory and energy (click → the process in the Processes tab), disk
+  and network rates.
+- **Settings**: icon content, appearance, launch at login, sampling interval at rest, CPU
+  thresholds, memory units (1024 vs 1000), protected processes, shortcut reference.
 
-Status: **M4** (menu bar, Processes, Performance, Sensors, Startup) — usable daily, not yet a product.
+Accessibility: every chart and card carries a spoken summary, nothing is conveyed by color
+alone (shapes, symbols and text accompany every color), Increase Contrast adds borders to
+cards, Reduce Motion disables the popover animation, everything is reachable from the keyboard.
+Italian and English.
+
+Status: **M5** — feature-complete for phase 1; phase 2 (notarization, Sparkle, licensing) next.
 
 ## Install
 
@@ -108,6 +118,7 @@ Measured on an M4 Pro (macOS 26.3) with Sirocco's own process row and `top`, Rel
 | Processes window open, 2 s sampling, ~300 rows + threads | 2.0–3.7 % | ~60–70 MB |
 | Performance tab open, 2 s sampling, five charts + 14-core heatmap | 1.4–2.2 % | ~160 MB |
 | Sensors tab open, 2 s sampling, 76 HID sensors + SMC + battery | 1.6–2.4 % | ~150 MB |
+| Overview open, 2 s sampling (processes + sensors + charts) | 2.1–3.4 % | ~40–155 MB |
 
 Sampling cadence: 1 s with the popover open, 2 s at rest or with the main window (Activity
 Monitor defaults to 5 s), 5 s when nothing is visible, suspended while the screens sleep,

@@ -1401,6 +1401,426 @@
           }
         }
       }
+    },
+    "1 s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1 s"
+          }
+        }
+      }
+    },
+    "2 s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2 s"
+          }
+        }
+      }
+    },
+    "5 s": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "5 s"
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aggiungi"
+          }
+        }
+      }
+    },
+    "Appearance": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aspetto"
+          }
+        }
+      }
+    },
+    "CPU attention": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU attenzione"
+          }
+        }
+      }
+    },
+    "CPU critical": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU critico"
+          }
+        }
+      }
+    },
+    "Critical: the system is throttling hard.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Critico: il sistema sta riducendo drasticamente le prestazioni."
+          }
+        }
+      }
+    },
+    "Dark": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scuro"
+          }
+        }
+      }
+    },
+    "Light": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chiaro"
+          }
+        }
+      }
+    },
+    "System": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistema"
+          }
+        }
+      }
+    },
+    "Disk read %@, write %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disco lettura %1$@, scrittura %2$@"
+          }
+        }
+      }
+    },
+    "Network received %@, sent %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rete ricevuti %1$@, inviati %2$@"
+          }
+        }
+      }
+    },
+    "E": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "E"
+          }
+        }
+      }
+    },
+    "P": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "P"
+          }
+        }
+      }
+    },
+    "of": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "di"
+          }
+        }
+      }
+    },
+    "Swap": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swap"
+          }
+        }
+      }
+    },
+    "GB (1000)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GB (1000)"
+          }
+        }
+      }
+    },
+    "GB (1024, like Activity Monitor)": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GB (1024, come Monitoraggio Attività)"
+          }
+        }
+      }
+    },
+    "General": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Generale"
+          }
+        }
+      }
+    },
+    "Hot: performance is being reduced.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Caldo: le prestazioni vengono ridotte."
+          }
+        }
+      }
+    },
+    "Interval at rest": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intervallo a riposo"
+          }
+        }
+      }
+    },
+    "Memory units": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unità di memoria"
+          }
+        }
+      }
+    },
+    "Never terminable from Sirocco, in addition to the built-in system list (kernel_task, launchd, WindowServer, loginwindow, coreaudiod, mds*, backupd).": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mai terminabili da Sirocco, oltre alla lista di sistema integrata (kernel_task, launchd, WindowServer, loginwindow, coreaudiod, mds*, backupd)."
+          }
+        }
+      }
+    },
+    "No thermal pressure.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna pressione termica."
+          }
+        }
+      }
+    },
+    "Process or app name": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome processo o app"
+          }
+        }
+      }
+    },
+    "Protected processes": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processi protetti"
+          }
+        }
+      }
+    },
+    "Remove %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rimuovi %@"
+          }
+        }
+      }
+    },
+    "Sampling": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Campionamento"
+          }
+        }
+      }
+    },
+    "Sections": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sezioni"
+          }
+        }
+      }
+    },
+    "Shortcuts": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scorciatoie"
+          }
+        }
+      }
+    },
+    "Shows the process in the Processes tab": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostra il processo nella scheda Processi"
+          }
+        }
+      }
+    },
+    "Slightly warm; fans may spin up.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Leggermente caldo; le ventole potrebbero attivarsi."
+          }
+        }
+      }
+    },
+    "Terminate / Force Quit": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Termina / Uscita forzata"
+          }
+        }
+      }
+    },
+    "The popover always samples every second; the main window every 2 s; everything slows down under thermal pressure.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il popover campiona sempre ogni secondo; la finestra principale ogni 2 s; tutto rallenta sotto pressione termica."
+          }
+        }
+      }
+    },
+    "Thresholds": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soglie"
+          }
+        }
+      }
+    },
+    "Toggle popover anywhere": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apri/chiudi popover ovunque"
+          }
+        }
+      }
+    },
+    "Top CPU": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Top CPU"
+          }
+        }
+      }
+    },
+    "Top energy": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Top energia"
+          }
+        }
+      }
+    },
+    "Top memory": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Top memoria"
+          }
+        }
+      }
+    },
+    "Units": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unità"
+          }
+        }
+      }
+    },
+    "%@ is in your protected list (Settings › Protected processes).": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ è nella tua lista protetta (Impostazioni › Processi protetti)."
+          }
+        }
+      }
     }
   }
 }

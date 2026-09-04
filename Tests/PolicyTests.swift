@@ -19,6 +19,14 @@ final class TerminationPolicyTests: XCTestCase {
         XCTAssertNil(policy.denial(pid: 501, command: "Google Chrome", uid: 501))
     }
 
+    func testUserProtectedNamesMatchCommandOrDisplayName() {
+        var policy = TerminationPolicy(ownPID: 1, currentUID: 501)
+        policy.userProtected = ["Google Chrome", "node"]
+        XCTAssertEqual(policy.denial(pid: 9, command: "Google Chrome He", uid: 501, displayName: "Google Chrome"), .userProtected)
+        XCTAssertEqual(policy.denial(pid: 9, command: "node", uid: 501), .userProtected)
+        XCTAssertNil(policy.denial(pid: 9, command: "Safari", uid: 501, displayName: "Safari"))
+    }
+
     func testRootMayTerminateAnyUser() {
         let root = TerminationPolicy(ownPID: 1, currentUID: 0)
         XCTAssertNil(root.denial(pid: 500, command: "foo", uid: 24))
@@ -43,6 +51,14 @@ final class SamplingPolicyTests: XCTestCase {
         demand.windowVisible = true
         demand.interests.formUnion([.processes, .processDetails])
         XCTAssertEqual(SamplingPolicy.interval(for: demand), .seconds(2), "800 live rows at 1 Hz cost ~5 % CPU; 2 s is the trade-off")
+    }
+
+    func testRestIntervalFollowsSettings() {
+        var demand = SamplingDemand.idle
+        demand.restSeconds = 5
+        XCTAssertEqual(SamplingPolicy.interval(for: demand), .seconds(5))
+        demand.windowVisible = true
+        XCTAssertEqual(SamplingPolicy.interval(for: demand), .seconds(2), "window keeps its own cadence")
     }
 
     func testNothingVisible() {

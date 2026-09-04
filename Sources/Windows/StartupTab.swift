@@ -70,6 +70,6 @@ struct StartupTab: View {
             }
         }
         .padding(DS.Spacing.m)
-        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: DS.Chart.cornerRadius))
+        .cardBackground()
     }
 }

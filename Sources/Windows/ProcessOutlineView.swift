@@ -107,13 +107,13 @@ struct ProcessOutlineView: NSViewRepresentable {
             .init(id: "user", title: String(localized: "User"), width: 90, min: 50, numeric: false),
         ]
 
-        static func text(_ id: String, _ row: ProcessRow) -> String {
+        @MainActor static func text(_ id: String, _ row: ProcessRow) -> String {
             switch id {
             case "name": row.name
             case "pid": String(row.pid)
             case "energy": row.energyImpact.formatted(.number.precision(.fractionLength(0)))
             case "cpu": (row.cpuFraction * 100).formatted(.number.precision(.fractionLength(1)))
-            case "memory": row.footprintBytes.formatted(.byteCount(style: .memory))
+            case "memory":Format.bytes(row.footprintBytes)
             case "threads": row.threads < 0 ? "—" : String(row.threads)
             case "wakeups": row.wakeupsPerSecond.formatted(.number.precision(.fractionLength(0)))
             case "read": rate(row.diskReadPerSecond)
@@ -123,8 +123,8 @@ struct ProcessOutlineView: NSViewRepresentable {
             }
         }
 
-        private static func rate(_ bytesPerSecond: Double) -> String {
-            bytesPerSecond < 1024 ? "—" : UInt64(bytesPerSecond).formatted(.byteCount(style: .memory)) + "/s"
+        @MainActor private static func rate(_ bytesPerSecond: Double) -> String {
+            bytesPerSecond < 1024 ? "—" :Format.bytes(UInt64(bytesPerSecond)) + "/s"
         }
     }
 

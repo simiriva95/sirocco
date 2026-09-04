@@ -10,6 +10,7 @@ struct MainWindowView: View {
             header
             Divider()
             switch model.tab {
+            case .overview: OverviewTab()
             case .processes: ProcessesTab()
             case .performance: PerformanceTab()
             case .sensors: SensorsTab()

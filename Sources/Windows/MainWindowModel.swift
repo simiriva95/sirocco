@@ -20,7 +20,7 @@ enum MainTab: Int, CaseIterable, Identifiable, Sendable {
 /// no focused-value plumbing for a window that exists once.
 @MainActor @Observable
 final class MainWindowModel {
-    var tab: MainTab = .processes
+    var tab: MainTab = .overview
     var query = ""
     var selection = Set<Int32>()
     private(set) var sortKey = UserDefaults.standard.string(forKey: "processSortKey") ?? "energy"
@@ -114,6 +114,7 @@ enum TerminationMessages {
         case .signalled, .failed(.noSuchProcess): nil
         case .denied(.systemCritical): String(localized: "\(name) is protected by the system and cannot be terminated.")
         case .denied(.otherUser): String(localized: "\(name) belongs to another user. Terminating it needs administrator privileges.")
+        case .denied(.userProtected): String(localized: "\(name) is in your protected list (Settings › Protected processes).")
         case .denied(.ownProcess): String(localized: "Sirocco won't terminate itself. Use Quit.")
         case .failed(.notPermitted): String(localized: "Permission denied by macOS (EPERM). \(name) is protected.")
         case .failed(.other(let code)): String(localized: "Signal failed for \(name) (errno \(code)).")

@@ -133,8 +133,8 @@ struct PerformanceTab: View {
     // MARK: Formatting
 
     private func percent(_ fraction: Double) -> String { "\(Int((fraction * 100).rounded()))%" }
-    private func bytes(_ value: UInt64) -> String { value.formatted(.byteCount(style: .memory)) }
+    private func bytes(_ value: UInt64) -> String {Format.bytes(value) }
     private func rate(_ bytesPerSecond: Double) -> String {
-        bytesPerSecond < 1 ? "0 B/s" : UInt64(bytesPerSecond).formatted(.byteCount(style: .memory)) + "/s"
+        bytesPerSecond < 1 ? "0 B/s" :Format.bytes(UInt64(bytesPerSecond)) + "/s"
     }
 }

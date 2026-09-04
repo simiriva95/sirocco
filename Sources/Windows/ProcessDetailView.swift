@@ -38,13 +38,13 @@ struct ProcessDetailView: View {
                 fact(String(localized: "User"), UserNames().name(for: sample.uid))
                 fact(String(localized: "Energy"), sample.energyImpact.formatted(.number.precision(.fractionLength(1))))
                 fact(String(localized: "% CPU"), (sample.cpuFraction * 100).formatted(.number.precision(.fractionLength(1))))
-                fact(String(localized: "Memory (footprint)"), sample.physFootprintBytes.formatted(.byteCount(style: .memory)))
-                fact(String(localized: "Resident (RSS)"), sample.residentBytes.formatted(.byteCount(style: .memory)))
+                fact(String(localized: "Memory (footprint)"),Format.bytes(sample.physFootprintBytes))
+                fact(String(localized: "Resident (RSS)"),Format.bytes(sample.residentBytes))
                 fact(String(localized: "Threads"), sample.threadCount.map(String.init) ?? "—")
                 fact(String(localized: "Package wakeups/s"), sample.packageIdleWakeupsPerSecond.formatted(.number.precision(.fractionLength(0))))
                 fact(String(localized: "Interrupt wakeups/s"), sample.interruptWakeupsPerSecond.formatted(.number.precision(.fractionLength(0))))
-                fact(String(localized: "Read/s"), UInt64(sample.diskReadBytesPerSecond).formatted(.byteCount(style: .memory)))
-                fact(String(localized: "Write/s"), UInt64(sample.diskWriteBytesPerSecond).formatted(.byteCount(style: .memory)))
+                fact(String(localized: "Read/s"),Format.bytes(UInt64(sample.diskReadBytesPerSecond)))
+                fact(String(localized: "Write/s"),Format.bytes(UInt64(sample.diskWriteBytesPerSecond)))
             }
             if let path = ProcessEnumerator.path(pid: sample.pid) {
                 Text(String(localized: "Path")).font(DS.Typography.secondary).foregroundStyle(.secondary)
@@ -60,7 +60,7 @@ struct ProcessDetailView: View {
             Grid(alignment: .leading, horizontalSpacing: DS.Spacing.m, verticalSpacing: DS.Spacing.xs) {
                 fact(String(localized: "Energy"), samples.reduce(0) { $0 + $1.energyImpact }.formatted(.number.precision(.fractionLength(0))))
                 fact(String(localized: "% CPU"), (samples.reduce(0) { $0 + $1.cpuFraction } * 100).formatted(.number.precision(.fractionLength(1))))
-                fact(String(localized: "Memory (footprint)"), samples.reduce(0) { $0 &+ $1.physFootprintBytes }.formatted(.byteCount(style: .memory)))
+                fact(String(localized: "Memory (footprint)"), Format.bytes(samples.reduce(0) { $0 &+ $1.physFootprintBytes }))
             }
             ForEach(samples) { sample in
                 HStack {

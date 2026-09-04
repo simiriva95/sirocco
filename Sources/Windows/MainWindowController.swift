@@ -9,7 +9,7 @@ final class MainWindowController: NSWindowController, NSWindowDelegate {
     let model: MainWindowModel
     var onVisibility: ((Bool) -> Void)?
 
-    init(model: MainWindowModel, store: MetricsStore, terminator: ProcessTerminator) {
+    init(model: MainWindowModel, store: MetricsStore, terminator: ProcessTerminator, settings: AppSettings) {
         self.model = model
         let window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 1040, height: 660),
                               styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
@@ -21,7 +21,7 @@ final class MainWindowController: NSWindowController, NSWindowDelegate {
         window.isReleasedWhenClosed = false
         window.setFrameAutosaveName("MainWindow")
         window.contentView = NSHostingView(rootView: MainWindowView()
-            .environment(model).environment(store).environment(terminator))
+            .environment(model).environment(store).environment(terminator).environment(settings))
         super.init(window: window)
         window.delegate = self
     }

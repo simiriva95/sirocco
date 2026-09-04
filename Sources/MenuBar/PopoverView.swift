@@ -6,6 +6,7 @@ struct PopoverView: View {
 
     @Environment(MetricsStore.self) private var store
     @Environment(ProcessTerminator.self) private var terminator
+    @Environment(AppSettings.self) private var settings
     @State private var query = ""
     @State private var groupToConfirm: ProcessGroup?
     @State private var failureMessage: String?
@@ -50,12 +51,12 @@ struct PopoverView: View {
             MiniChartCard(title: String(localized: "CPU"),
                           value: cpu.map { percent($0.total) } ?? "—",
                           detail: cpu.map { "P \(percent($0.performance)) · E \(percent($0.efficiency))" } ?? "",
-                          severity: cpu.map { $0.total > 0.9 ? .critical : $0.total > 0.6 ? .attention : .nominal } ?? .nominal) {
+                          severity: cpu.map { settings.cpuSeverity($0.total) } ?? .nominal) {
                 SparklineView(values: store.cpuHistory.elements.suffix(60).map { $0 }, capacity: 60,
-                              color: DS.color(cpu.map { $0.total > 0.6 ? .attention : .nominal } ?? .nominal))
+                              color: DS.color(cpu.map { settings.cpuSeverity($0.total) } ?? .nominal))
             }
             MiniChartCard(title: String(localized: "Memory"),
-                          value: memory.map { $0.usedBytes.formatted(.byteCount(style: .memory)) } ?? "—",
+                          value: memory.map { Format.bytes($0.usedBytes) } ?? "—",
                           detail: memory.map { percent($0.usedFraction) } ?? "",
                           severity: memory?.pressure.severity ?? .nominal) {
                 SparklineView(values: store.memoryHistory.elements.suffix(60).map { $0 }, capacity: 60,
@@ -112,7 +113,7 @@ struct PopoverView: View {
     private var footer: some View {
         HStack {
             if let me = store.selfSample {
-                Text("Sirocco · \(percent(me.cpuFraction)) CPU · \(me.physFootprintBytes.formatted(.byteCount(style: .memory)))")
+                Text("Sirocco · \(percent(me.cpuFraction)) CPU · \(Format.bytes(me.physFootprintBytes))")
                     .font(DS.Typography.secondary).foregroundStyle(.secondary)
             }
             Spacer()
@@ -223,7 +224,7 @@ struct MiniChartCard<Chart: View>: View {
         }
         .padding(DS.Spacing.s)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: DS.Chart.cornerRadius))
+        .cardBackground()
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title): \(value). \(detail)")
     }
@@ -253,7 +254,7 @@ struct ProcessGroupRow: View {
             VStack(alignment: .trailing, spacing: 1) {
                 Text(group.energyImpact.formatted(.number.precision(.fractionLength(0))))
                     .font(DS.Typography.value)
-                Text("\(Int((group.cpuFraction * 100).rounded()))% · \(group.physFootprintBytes.formatted(.byteCount(style: .memory)))")
+                Text("\(Int((group.cpuFraction * 100).rounded()))% · \(Format.bytes(group.physFootprintBytes))")
                     .font(DS.Typography.secondary).foregroundStyle(.secondary)
             }
             .frame(width: 96, alignment: .trailing)

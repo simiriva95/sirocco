@@ -187,8 +187,27 @@ struct ChartCard<Content: View>: View {
             content()
         }
         .padding(DS.Spacing.m)
-        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: DS.Chart.cornerRadius))
+        .cardBackground()
         .accessibilityElement(children: .ignore)
         .accessibilityLabel("\(title). \(accessibilitySummary)")
     }
+}
+
+/// The one card surface. With Increase Contrast on, a border replaces the faint fill difference.
+struct CardBackground: ViewModifier {
+    @Environment(\.colorSchemeContrast) private var contrast
+
+    func body(content: Content) -> some View {
+        content
+            .background(.quaternary.opacity(contrast == .increased ? 0.7 : 0.5), in: RoundedRectangle(cornerRadius: DS.Chart.cornerRadius))
+            .overlay {
+                if contrast == .increased {
+                    RoundedRectangle(cornerRadius: DS.Chart.cornerRadius).strokeBorder(.secondary, lineWidth: 1)
+                }
+            }
+    }
+}
+
+extension View {
+    func cardBackground() -> some View { modifier(CardBackground()) }
 }

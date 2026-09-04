@@ -12,12 +12,14 @@ final class ProcessTerminator {
 
     static let escalationDelay: TimeInterval = 3
 
-    let policy = TerminationPolicy(ownPID: getpid(), currentUID: getuid())
+    var policy = TerminationPolicy(ownPID: getpid(), currentUID: getuid())
+    /// Resolves the display name so "Google Chrome" in Settings protects the app, not just its p_comm.
+    var displayName: ((ProcessSample) -> String)?
     /// pid → when SIGTERM was sent. Cleared when the pid disappears or after SIGKILL.
     private(set) var pendingTermination: [Int32: Date] = [:]
 
     func terminate(_ sample: ProcessSample) -> Outcome {
-        if let denial = policy.denial(pid: sample.pid, command: sample.command, uid: sample.uid) {
+        if let denial = policy.denial(pid: sample.pid, command: sample.command, uid: sample.uid, displayName: displayName?(sample)) {
             return .denied(denial)
         }
         if let failure = Signals.terminate(pid: sample.pid) { return .failed(failure) }
@@ -26,7 +28,7 @@ final class ProcessTerminator {
     }
 
     func forceKill(_ sample: ProcessSample) -> Outcome {
-        if let denial = policy.denial(pid: sample.pid, command: sample.command, uid: sample.uid) {
+        if let denial = policy.denial(pid: sample.pid, command: sample.command, uid: sample.uid, displayName: displayName?(sample)) {
             return .denied(denial)
         }
         pendingTermination[sample.pid] = nil

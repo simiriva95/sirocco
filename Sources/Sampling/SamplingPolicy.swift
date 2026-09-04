@@ -16,6 +16,7 @@ struct SamplingDemand: Equatable, Sendable {
     var windowVisible: Bool
     var screenAsleep: Bool
     var thermalState: ProcessInfo.ThermalState
+    var restSeconds: Int = 2          // Settings › Sampling › Interval at rest
 
     static let idle = SamplingDemand(interests: [.systemOverview], popoverVisible: false, windowVisible: false,
                                      screenAsleep: false, thermalState: .nominal)
@@ -35,7 +36,8 @@ enum SamplingPolicy {
         var base: Duration
         if demand.popoverVisible { base = popoverInterval }
         else if demand.interests.isEmpty { base = hiddenInterval }
-        else { base = restInterval }
+        else if demand.windowVisible { base = restInterval }
+        else { base = .seconds(demand.restSeconds) }
         if demand.thermalState == .critical { base *= 2 }
         return base
     }

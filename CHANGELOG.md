@@ -1,5 +1,15 @@
 # Changelog
 
+## M5 — 2026-09-03
+
+- Overview tab: diagnosis banner, CPU / memory / thermal cards with 5-minute history, top five
+  by CPU / memory / energy with one-click navigation to the process, disk and network footer.
+- Settings: appearance (system/light/dark), interval at rest (1/2/5 s), CPU attention/critical
+  thresholds (drive popover and overview colors), memory units, user protected processes
+  (matched on p_comm and app name), shortcut reference.
+- Design system: one `cardBackground()` surface, one `Format` for bytes/rates/percent, Increase
+  Contrast borders. Localization audit: Italian complete.
+
 ## M4 — 2026-09-03
 
 - Sensors tab: temperatures (CPU die / GPU / SSD, 5-minute history), fans with SMC min/max,
