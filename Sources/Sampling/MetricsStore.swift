@@ -13,6 +13,8 @@ final class MetricsStore {
     private(set) var thermalHistory = RingBuffer<ThermalEvent>(capacity: historyCapacity)
     /// Everything the Performance tab plots, one aligned sample per tick (skips the first tick).
     private(set) var performance = RingBuffer<PerformanceSample>(capacity: historyCapacity)
+    private(set) var sensors: SensorSnapshot?
+    private(set) var sensorHistory = RingBuffer<SensorSnapshot>(capacity: historyCapacity)
     private(set) var groups: [ProcessGroup] = []
     private(set) var diagnosis: Diagnosis = .nominal
     /// Our own footprint, shown in the popover footer and used for the README numbers.
@@ -39,6 +41,10 @@ final class MetricsStore {
         memoryHistory.append(snapshot.memory.usedFraction)
         thermalHistory.append(ThermalEvent(timestamp: snapshot.timestamp, state: snapshot.thermalState))
 
+        if let sensorSnapshot = snapshot.sensors {
+            sensors = sensorSnapshot
+            sensorHistory.append(sensorSnapshot)
+        }
         if let processes = snapshot.processes {
             groups = AppAggregation.group(processes) { snapshot.responsiblePIDs[$0] }
             selfSample = processes.first { $0.pid == ownPID }

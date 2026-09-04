@@ -28,6 +28,9 @@ final class MainWindowModel {
     var showInspector = false
     var searchFocusRequest = 0          // bumped by ⌘F; the view observes and focuses the field
     var pendingKill: PendingKill?
+    /// Set by the app delegate: sampling interests depend on the visible tab.
+    @ObservationIgnored var onTabChange: (() -> Void)?
+    let startup = StartupStore()
     var failureMessage: String?
 
     struct PendingKill: Identifiable {

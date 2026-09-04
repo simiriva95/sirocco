@@ -18,7 +18,13 @@ why, and how do I stop it?"**
   network per interface, thermal state over time. All charts are hand-drawn `Canvas` code
   sharing one axis/grid implementation.
 
-Status: **M3** (menu bar, Processes, Performance) — usable daily, not yet a product.
+- **Sensors tab**: CPU die / GPU / SSD temperatures with history, fan RPM against the SMC's
+  min/max, system power in watts, battery charge / health / cycles / time remaining, and the
+  full raw sensor list. Every card says "Not available on this Mac" instead of showing zeros.
+- **Startup tab**: user LaunchAgents (toggle on/off), system LaunchAgents and LaunchDaemons
+  (read-only), a shortcut to the Login Items settings pane.
+
+Status: **M4** (menu bar, Processes, Performance, Sensors, Startup) — usable daily, not yet a product.
 
 ## Install
 
@@ -51,7 +57,10 @@ Requirements: macOS 14+, Apple Silicon (arm64 only — Intel is not supported).
 |---|---|---|
 | CPU per core | `host_processor_info(PROCESSOR_CPU_LOAD_INFO)`, delta between samples | Cores mapped to Performance / Efficiency via `hw.perflevel*.logicalcpu` (E cores come first in the logical numbering). |
 | Memory | `host_statistics64` + `vm.swapusage` + `kern.memorystatus_vm_pressure_level` | "Used" = app (internal − purgeable) + wired + compressed, like Activity Monitor. `total − free` is meaningless on macOS. |
-| Thermal state | `ProcessInfo.thermalState` | Public API, no privileges, four levels. Real temperatures are an M4 item behind a `SensorSource` protocol that may legitimately fail. |
+| Thermal state | `ProcessInfo.thermalState` | Public API, no privileges, four levels. Always works. |
+| Temperatures | private `IOHIDEventSystemClient`, usage page `0xff00` / usage 5 | Names differ per chip (`PMU tdie*` on M3/M4, `pACC MTR Temp Sensor*` on M1); grouped by prefix, garbage (−9201 °C) filtered, duplicates collapsed to the hottest. Behind `SensorSource`; may vanish with a macOS update. |
+| Fans, system power | `AppleSMC` user client: `FNum`, `F*Ac/Mn/Mx`, `PSTR`, `PDTR`, `PPBR` | Undocumented keys; each read may return nothing. Read-only, no fan control. |
+| Battery | `AppleSmartBattery` IORegistry | Health = `AppleRawMaxCapacity / DesignCapacity`; watts = voltage × amperage. |
 | Per-process CPU, wakeups, disk I/O | `proc_pid_rusage(RUSAGE_INFO_V4)` as deltas | Times are mach absolute units; converted with `mach_timebase_info`. |
 | Per-process memory | `ri_phys_footprint` | What Activity Monitor calls "Memory". RSS is kept but not shown. |
 | Process list | one `sysctl(KERN_PROC_ALL)` into a reused buffer | No per-tick allocation once the process count is stable. |
@@ -98,6 +107,7 @@ Measured on an M4 Pro (macOS 26.3) with Sirocco's own process row and `top`, Rel
 | Popover open, 1 s sampling, ~800 processes | 1.0–1.4 % | ~40–150 MB (SwiftUI + app icons) |
 | Processes window open, 2 s sampling, ~300 rows + threads | 2.0–3.7 % | ~60–70 MB |
 | Performance tab open, 2 s sampling, five charts + 14-core heatmap | 1.4–2.2 % | ~160 MB |
+| Sensors tab open, 2 s sampling, 76 HID sensors + SMC + battery | 1.6–2.4 % | ~150 MB |
 
 Sampling cadence: 1 s with the popover open, 2 s at rest or with the main window (Activity
 Monitor defaults to 5 s), 5 s when nothing is visible, suspended while the screens sleep,
@@ -127,8 +137,10 @@ set on every tick.
   Sirocco says so instead of failing silently. Protected system processes (`kernel_task`,
   `launchd`, `WindowServer`, `loginwindow`, `coreaudiod`, `mds*`, `backupd`, Sirocco
   itself) are never signalled.
-- **Startup items** (M4) will list and disable user LaunchAgents; system agents/daemons are
-  read-only and third-party login items are not enumerable without root.
+- **Startup items**: user LaunchAgents can be disabled (`launchctl disable` + `bootout`);
+  system agents/daemons are read-only; login items live in the Background Task Management
+  database, which is not readable without root, so the tab links to System Settings instead.
+- **No fan control**, by design. Sensors are read-only.
 - **Grouping follows macOS's notion of responsibility.** XPC services the system spawns on an
   app's behalf are attributed to that app, so Sirocco itself shows two or three "processes".
 - **The global hotkey uses Carbon `RegisterEventHotKey`** (deprecated, still the only public
@@ -144,7 +156,9 @@ Sources/
   Sampling/       Sampler actor, cadence policy, main-actor MetricsStore
   Processes/      identity/icon cache, termination policy, terminator
   MenuBar/        NSStatusItem, Core Graphics icon renderer, SwiftUI popover, Carbon hotkey
-  Windows/        AppKit-owned main window, NSOutlineView process table, inspector
+  Windows/        AppKit-owned main window, NSOutlineView process table, Performance/Sensors/Startup tabs
+  Sensors/        SensorSource protocol, classifier, hub (IOHID + SMC + battery behind it)
+  Startup/        LaunchAgents/Daemons scanner, launchctl client, store
   DesignSystem/   tokens, sparkline geometry, TimeSeriesChart / CoreHeatmap / ChartCard
   Settings/       UserDefaults-backed settings, Settings scene
   Licensing/      LicenseGating protocol (stub; phase 2)

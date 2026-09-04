@@ -5,6 +5,7 @@ enum SamplingInterest: Hashable, Sendable {
     case systemOverview     // CPU total, memory, thermal — the menu bar icon
     case processes          // process enumeration + per-process rusage
     case processDetails     // + thread counts (one extra syscall per pid; Processes tab only)
+    case sensors            // IOHID temperatures, SMC fans/power, battery (Sensors tab only)
     case perCore            // per-core breakdown (Performance tab, M3)
 }
 

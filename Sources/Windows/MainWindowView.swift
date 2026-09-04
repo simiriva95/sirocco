@@ -12,11 +12,14 @@ struct MainWindowView: View {
             switch model.tab {
             case .processes: ProcessesTab()
             case .performance: PerformanceTab()
+            case .sensors: SensorsTab()
+            case .startup: StartupTab()
             default: ContentUnavailableView(model.tab.title, systemImage: "hammer",
                                             description: Text("Coming in a later milestone."))
             }
         }
         .frame(minWidth: 760, minHeight: 420)
+        .onChange(of: model.tab) { _, _ in model.onTabChange?() }
         .onChange(of: model.searchFocusRequest) { _, _ in
             model.tab = .processes
             searchFocused = true

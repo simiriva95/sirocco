@@ -14,6 +14,7 @@ actor Sampler {
     private var lastTick: ContinuousClock.Instant?
     private var deltaTracker = ProcessDeltaTracker()
     private var throughput = ThroughputTracker()
+    private let sensors = SensorHub()
     private var responsibleCache: [Int32: Int32?] = [:]
 
     init(store: MetricsStore) {
@@ -79,11 +80,13 @@ actor Sampler {
             deltaTracker = ProcessDeltaTracker()   // stale deltas are worse than a warm-up
         }
 
+        let sensorSnapshot = demand.interests.contains(.sensors) ? sensors.read(at: Date()) : nil
+
         let snapshot = SystemSnapshot(
             timestamp: Date(), cpu: cpu,
             memory: MachHost.memoryLoad(totalBytes: totalMemory) ?? .zero,
             thermalState: ProcessInfo.processInfo.thermalState,
-            disk: rates.disk, network: rates.network,
+            disk: rates.disk, network: rates.network, sensors: sensorSnapshot,
             processes: processes, responsiblePIDs: responsible)
         Task { @MainActor [store] in store.ingest(snapshot) }
     }

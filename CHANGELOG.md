@@ -1,5 +1,15 @@
 # Changelog
 
+## M4 — 2026-09-03
+
+- Sensors tab: temperatures (CPU die / GPU / SSD, 5-minute history), fans with SMC min/max,
+  system / adapter / battery power (W), battery status, raw sensor list. Sources probed once
+  at first use; unavailable sources are reported, never faked.
+- `SensorSource` protocol with `HIDTemperatureSource` (private IOHID), `SMCSource`, `BatterySource`.
+- Startup tab: user LaunchAgents with enable/disable, system agents and daemons read-only,
+  link to Login Items settings.
+- Sensors sampled only while the Sensors tab is visible.
+
 ## M3 — 2026-09-03
 
 - Performance tab: 1/5/15 min windows; CPU total + P/E lines and per-core heatmap grouped by

@@ -30,6 +30,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self?.pushDemand()
         }
         hotKey = GlobalHotKey { [weak self] in self?.statusItem?.toggle() }
+        mainModel.onTabChange = { [weak self] in self?.pushDemand() }
 
         let center = NSWorkspace.shared.notificationCenter
         for (name, asleep) in [(NSWorkspace.screensDidSleepNotification, true), (NSWorkspace.screensDidWakeNotification, false)] {
@@ -54,6 +55,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         var interests: Set<SamplingInterest> = [.systemOverview]
         if popoverVisible { interests.insert(.processes) }
         if windowVisible && mainModel.tab == .processes { interests.formUnion([.processes, .processDetails]) }
+        if windowVisible && mainModel.tab == .sensors { interests.insert(.sensors) }
         let demand = SamplingDemand(interests: interests, popoverVisible: popoverVisible, windowVisible: windowVisible,
                                     screenAsleep: screenAsleep, thermalState: store.thermalState)
         Task { [sampler] in await sampler?.setDemand(demand) }

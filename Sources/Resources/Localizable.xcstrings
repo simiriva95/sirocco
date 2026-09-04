@@ -991,6 +991,416 @@
           }
         }
       }
+    },
+    "Fan %lld": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventola %lld"
+          }
+        }
+      }
+    },
+    "System power": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Potenza di sistema"
+          }
+        }
+      }
+    },
+    "Adapter power": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Potenza alimentatore"
+          }
+        }
+      }
+    },
+    "Battery power": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Potenza batteria"
+          }
+        }
+      }
+    },
+    "Only your own LaunchAgents can be changed without administrator rights.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Senza privilegi di amministratore si possono modificare solo i tuoi LaunchAgent."
+          }
+        }
+      }
+    },
+    "Temperatures": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperature"
+          }
+        }
+      }
+    },
+    "CPU die": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die CPU"
+          }
+        }
+      }
+    },
+    "GPU": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GPU"
+          }
+        }
+      }
+    },
+    "SSD": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "SSD"
+          }
+        }
+      }
+    },
+    "Fans": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ventole"
+          }
+        }
+      }
+    },
+    "Power": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Potenza"
+          }
+        }
+      }
+    },
+    "Battery": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Batteria"
+          }
+        }
+      }
+    },
+    "Not available on this Mac": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Non disponibile su questo Mac"
+          }
+        }
+      }
+    },
+    "Waiting for sensors…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In attesa dei sensori…"
+          }
+        }
+      }
+    },
+    "No fans (or the SMC does not expose them).": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna ventola (o l'SMC non le espone)."
+          }
+        }
+      }
+    },
+    "%lld rpm": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld giri/min"
+          }
+        }
+      }
+    },
+    "Charge": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carica"
+          }
+        }
+      }
+    },
+    "Health": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salute"
+          }
+        }
+      }
+    },
+    "Cycles": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cicli"
+          }
+        }
+      }
+    },
+    "Charging": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In carica"
+          }
+        }
+      }
+    },
+    "Discharging": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In scarica"
+          }
+        }
+      }
+    },
+    "On AC power": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alimentazione esterna"
+          }
+        }
+      }
+    },
+    "Time remaining": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tempo rimanente"
+          }
+        }
+      }
+    },
+    "%lld h %lld min": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld h %lld min"
+          }
+        }
+      }
+    },
+    "Battery temperature": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperatura batteria"
+          }
+        }
+      }
+    },
+    "No battery in this Mac.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessuna batteria in questo Mac."
+          }
+        }
+      }
+    },
+    "All sensors": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tutti i sensori"
+          }
+        }
+      }
+    },
+    "Sources: %@": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sorgenti: %@"
+          }
+        }
+      }
+    },
+    "Temperatures come from private Apple sensors and may stop working after a macOS update.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le temperature vengono da sensori Apple privati e potrebbero smettere di funzionare dopo un aggiornamento di macOS."
+          }
+        }
+      }
+    },
+    "User LaunchAgents": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaunchAgent utente"
+          }
+        }
+      }
+    },
+    "System LaunchAgents": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaunchAgent di sistema"
+          }
+        }
+      }
+    },
+    "System LaunchDaemons": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LaunchDaemon di sistema"
+          }
+        }
+      }
+    },
+    "Login items are managed by macOS and cannot be listed without administrator rights.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gli elementi di login sono gestiti da macOS e non si possono elencare senza privilegi di amministratore."
+          }
+        }
+      }
+    },
+    "Open Login Items settings": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apri impostazioni Elementi login"
+          }
+        }
+      }
+    },
+    "Read-only: changing system jobs needs administrator rights.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sola lettura: modificare i job di sistema richiede privilegi di amministratore."
+          }
+        }
+      }
+    },
+    "Enabled": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attivo"
+          }
+        }
+      }
+    },
+    "Run at load": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Avvio al caricamento"
+          }
+        }
+      }
+    },
+    "Couldn't change startup item": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossibile modificare l'elemento di avvio"
+          }
+        }
+      }
+    },
+    "Reload": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ricarica"
+          }
+        }
+      }
+    },
+    "No items": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nessun elemento"
+          }
+        }
+      }
+    },
+    "Scanning…": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scansione…"
+          }
+        }
+      }
     }
   }
 }
