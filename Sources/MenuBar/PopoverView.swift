@@ -9,6 +9,8 @@ struct PopoverView: View {
     @State private var query = ""
     @State private var groupToConfirm: ProcessGroup?
     @State private var failureMessage: String?
+    /// Row order captured when the pointer enters the list; rows stop jumping under the cursor.
+    @State private var frozenOrder: [Int32]?
 
     private static let maxRows = 8
 
@@ -77,7 +79,11 @@ struct PopoverView: View {
                     || store.identities.identity(for: member).name.localizedCaseInsensitiveContains(trimmed)
             }
         }
-        return Array(filtered.prefix(Self.maxRows))
+        guard let frozenOrder else { return Array(filtered.prefix(Self.maxRows)) }
+        let byID = Dictionary(uniqueKeysWithValues: filtered.map { ($0.id, $0) })
+        let kept = frozenOrder.compactMap { byID[$0] }
+        let keptIDs = Set(kept.map(\.id))
+        return Array((kept + filtered.filter { !keptIDs.contains($0.id) }).prefix(Self.maxRows))
     }
 
     @ViewBuilder
@@ -96,6 +102,9 @@ struct PopoverView: View {
                     }
                     Divider()
                 }
+            }
+            .onHover { inside in
+                frozenOrder = inside ? visibleGroups.map(\.id) : nil
             }
         }
     }

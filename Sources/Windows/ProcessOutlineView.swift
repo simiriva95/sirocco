@@ -71,6 +71,12 @@ struct ProcessOutlineView: NSViewRepresentable {
         scroll.hasHorizontalScroller = true
         scroll.autohidesScrollers = true
         coordinator.outline = outline
+        coordinator.isInteracting = { [weak outline] in
+            guard let outline, let window = outline.window else { return false }
+            if NSEvent.pressedMouseButtons != 0 { return true }
+            let point = outline.convert(window.mouseLocationOutsideOfEventStream, from: nil)
+            return outline.visibleRect.contains(point) && window.isKeyWindow
+        }
         return scroll
     }
 
@@ -149,6 +155,10 @@ struct ProcessOutlineView: NSViewRepresentable {
         private var topOrder: [Int32] = []
         private var childOrder: [Int32: [Int32]] = [:]
         private var suppressSelectionCallback = false
+        /// While the pointer is over the table (or a button is down) rows keep their positions:
+        /// values still refresh, dead rows leave, new rows append at the bottom. Re-sorting
+        /// resumes when the pointer leaves. Overridable for tests.
+        var isInteracting: () -> Bool = { false }
         private let nameFont = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
         private let numberFont = NSFont.monospacedDigitSystemFont(ofSize: NSFont.smallSystemFontSize, weight: .regular)
 
@@ -163,7 +173,22 @@ struct ProcessOutlineView: NSViewRepresentable {
                 return entry
             }
             let oldGroups = Set(childOrder.keys)
-            items = rows.map { item(for: $0, key: $0.pid) }
+            var ordered = rows
+            if isInteracting(), !topOrder.isEmpty {
+                let byPID = Dictionary(uniqueKeysWithValues: rows.map { ($0.pid, $0) })
+                let kept = topOrder.compactMap { byPID[$0] }
+                let keptSet = Set(kept.map(\.pid))
+                ordered = kept + rows.filter { !keptSet.contains($0.pid) }
+                ordered = ordered.map { row in
+                    guard let children = row.children, let old = childOrder[row.pid] else { return row }
+                    let byChild = Dictionary(uniqueKeysWithValues: children.map { ($0.pid, $0) })
+                    let keptChildren = old.compactMap { byChild[$0] }
+                    var copy = row
+                    copy.children = keptChildren + children.filter { child in !old.contains(child.pid) }
+                    return copy
+                }
+            }
+            items = ordered.map { item(for: $0, key: $0.pid) }
             pool = newPool
             let newTop = items.map(\.pid)
             let newChildren = Dictionary(uniqueKeysWithValues: items.filter { !$0.children.isEmpty }.map { ($0.pid, $0.children.map(\.pid)) })

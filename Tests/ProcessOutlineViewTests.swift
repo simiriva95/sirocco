@@ -65,6 +65,22 @@ final class ProcessOutlineViewTests: XCTestCase {
                        ["p4", "p3", "p1"])
     }
 
+    func testRowsHoldPositionWhileThePointerIsOverTheTable() {
+        let (coordinator, outline) = makeOutline()
+        coordinator.apply(rows: [row(1, energy: 9), row(2, energy: 5), row(3, energy: 1)], selection: [], sortKey: "energy", ascending: false)
+        settle(outline)
+        coordinator.isInteracting = { true }
+        // Model says 3 is now on top and 2 is gone, 4 is new: order must not change under the pointer.
+        coordinator.apply(rows: [row(3, energy: 20), row(1, energy: 9), row(4, energy: 0)], selection: [], sortKey: "energy", ascending: false)
+        settle(outline)
+        XCTAssertEqual(visibleOrder(outline), [1, 3, 4])
+        XCTAssertEqual((outline.item(atRow: 1) as? ProcessOutlineView.RowItem)?.row.energyImpact, 20, "values still refresh")
+        coordinator.isInteracting = { false }
+        coordinator.apply(rows: [row(3, energy: 20), row(1, energy: 9), row(4, energy: 0)], selection: [], sortKey: "energy", ascending: false)
+        settle(outline)
+        XCTAssertEqual(visibleOrder(outline), [3, 1, 4], "re-sorts once the pointer leaves")
+    }
+
     func testExpandedGroupChildrenFollowTheModel() {
         let (coordinator, outline) = makeOutline()
         coordinator.apply(rows: [row(10, energy: 5, children: [11, 12]), row(20, energy: 1)], selection: [], sortKey: "energy", ascending: false)
