@@ -1821,6 +1821,96 @@
           }
         }
       }
+    },
+    "Trial expired": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prova terminata"
+          }
+        }
+      }
+    },
+    "Unlock password": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password di sblocco"
+          }
+        }
+      }
+    },
+    "Unlock": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sblocca"
+          }
+        }
+      }
+    },
+    "Wrong password.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password errata."
+          }
+        }
+      }
+    },
+    "Trial: %lld days left": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prova: %lld giorni rimasti"
+          }
+        }
+      }
+    },
+    "Unlocked": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sbloccata"
+          }
+        }
+      }
+    },
+    "License": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Licenza"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stato"
+          }
+        }
+      }
+    },
+    "Thanks for trying Sirocco. The 14-day trial is over; a purchase option is coming. If you own an unlock password, enter it below.": {
+      "localizations": {
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grazie per aver provato Sirocco. I 14 giorni di prova sono finiti; l'acquisto arriverà. Se hai una password di sblocco, inseriscila qui sotto."
+          }
+        }
+      }
     }
   }
 }

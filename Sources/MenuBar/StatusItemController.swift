@@ -17,7 +17,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
     var onPopoverVisibility: ((Bool) -> Void)?
 
-    init(store: MetricsStore, settings: AppSettings, terminator: ProcessTerminator, openMainWindow: @escaping () -> Void) {
+    init(store: MetricsStore, settings: AppSettings, terminator: ProcessTerminator, license: LicenseManager, openMainWindow: @escaping () -> Void) {
         self.store = store
         self.settings = settings
         self.terminator = terminator
@@ -35,7 +35,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
         popover.animates = !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
         let hosting = NSHostingController(rootView: PopoverView(close: { [weak self] in self?.close() },
                                                                 openWindow: { [weak self] in self?.close(); self?.openMainWindow() })
-            .environment(store).environment(settings).environment(terminator))
+            .environment(store).environment(settings).environment(terminator).environment(license))
         hosting.sizingOptions = .preferredContentSize
         popover.contentViewController = hosting
 

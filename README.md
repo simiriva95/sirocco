@@ -34,16 +34,22 @@ alone (shapes, symbols and text accompany every color), Increase Contrast adds b
 cards, Reduce Motion disables the popover animation, everything is reachable from the keyboard.
 Italian and English.
 
-Status: **M5** — feature-complete for phase 1; phase 2 (notarization, Sparkle, licensing) next.
+**Trial**: 14 days from first launch, then the app locks (popover and window show a lock
+screen; the menu bar icon keeps working). The owner unlocks with a password whose salted
+PBKDF2 hash is embedded at build time (`make unlock-hash`, typed locally, never stored in
+clear). This is a deterrent, not DRM: the source repository is private for that reason.
+
+Status: **M5 + trial** — feature-complete for phase 1; notarization and Sparkle next.
 
 ## Install
 
 Sirocco is not on the App Store and cannot be: a sandboxed app cannot list, inspect or
 signal other processes. Two options:
 
-**From GitHub Releases** — download `Sirocco.zip`, unzip, move `Sirocco.app` to
-`/Applications`. Phase-1 builds are ad-hoc signed and not notarized, so Gatekeeper will
-refuse the first launch; clear the quarantine flag once:
+**From GitHub Releases** — [simiriva95/sirocco-releases](https://github.com/simiriva95/sirocco-releases):
+download `Sirocco.zip`, unzip, move `Sirocco.app` to `/Applications`. Builds are ad-hoc
+signed and not notarized (no Apple Developer ID yet), so Gatekeeper refuses the first launch;
+clear the quarantine flag once:
 
 ```bash
 xattr -dr com.apple.quarantine /Applications/Sirocco.app
@@ -172,7 +178,7 @@ Sources/
   Startup/        LaunchAgents/Daemons scanner, launchctl client, store
   DesignSystem/   tokens, sparkline geometry, TimeSeriesChart / CoreHeatmap / ChartCard
   Settings/       UserDefaults-backed settings, Settings scene
-  Licensing/      LicenseGating protocol (stub; phase 2)
+  Licensing/      TrialClock (pure), PBKDF2 unlock, LicenseManager, lock screen
 Tests/            Metrics, Diagnosis, aggregation, policies — fixtures, no I/O
 ```
 

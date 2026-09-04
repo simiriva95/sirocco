@@ -2,7 +2,10 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(AppSettings.self) private var settings
+    @Environment(LicenseManager.self) private var license
     @State private var newProtectedName = ""
+    @State private var unlockPassword = ""
+    @State private var unlockFailed = false
 
     var body: some View {
         @Bindable var settings = settings
@@ -59,6 +62,16 @@ struct SettingsView: View {
                     Button(String(localized: "Add"), action: addProtected).disabled(newProtectedName.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
+            Section(String(localized: "License")) {
+                LabeledContent(String(localized: "Status")) { LicenseStatusText() }
+                if license.state != .unlocked {
+                    HStack {
+                        SecureField(String(localized: "Unlock password"), text: $unlockPassword).onSubmit(attemptUnlock)
+                        Button(String(localized: "Unlock"), action: attemptUnlock).disabled(unlockPassword.isEmpty)
+                    }
+                    if unlockFailed { Text("Wrong password.").font(DS.Typography.secondary).foregroundStyle(DS.color(.critical)) }
+                }
+            }
             Section(String(localized: "Shortcuts")) {
                 LabeledContent(String(localized: "Toggle popover anywhere"), value: "⌃⌥S")
                 LabeledContent(String(localized: "Open Sirocco"), value: "⌘O")
@@ -67,7 +80,12 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 460, height: 640)
+        .frame(width: 460, height: 720)
+    }
+
+    private func attemptUnlock() {
+        unlockFailed = !license.unlock(password: unlockPassword)
+        if !unlockFailed { unlockPassword = "" }
     }
 
     private func addProtected() {

@@ -2,11 +2,20 @@ import SwiftUI
 
 struct MainWindowView: View {
     @Environment(MainWindowModel.self) private var model
+    @Environment(LicenseManager.self) private var license
     @FocusState private var searchFocused: Bool
 
     var body: some View {
+        if license.isExpired {
+            LockedView().frame(minWidth: 760, minHeight: 420)
+        } else {
+            unlockedBody
+        }
+    }
+
+    private var unlockedBody: some View {
         @Bindable var model = model
-        VStack(spacing: 0) {
+        return VStack(spacing: 0) {
             header
             Divider()
             switch model.tab {

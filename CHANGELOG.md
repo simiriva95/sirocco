@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.0 — 2026-09-03
+
+- 14-day trial from first launch (install date kept in UserDefaults and Application Support,
+  earliest wins; clock rollback does not revive it). After that, popover and window show a
+  lock screen; sampling drops to the menu bar icon only.
+- Owner unlock with a password: salted PBKDF2-HMAC-SHA256 (200k iterations) hash embedded at
+  build time via `make unlock-hash`; unlock from the lock screen or Settings › License.
+- Public download repository `sirocco-releases`; `make release` publishes there.
+
 ## M5 — 2026-09-03
 
 - Overview tab: diagnosis banner, CPU / memory / thermal cards with 5-minute history, top five

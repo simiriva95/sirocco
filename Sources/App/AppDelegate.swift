@@ -5,8 +5,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let settings = AppSettings()
     let store = MetricsStore()
     let terminator = ProcessTerminator()
+    let license = LicenseManager()
     private(set) lazy var mainModel = MainWindowModel(store: store, terminator: terminator)
-    private(set) lazy var mainWindow = MainWindowController(model: mainModel, store: store, terminator: terminator, settings: settings)
+    private(set) lazy var mainWindow = MainWindowController(model: mainModel, store: store, terminator: terminator, settings: settings, license: license)
     private var sampler: Sampler?
     private var statusItem: StatusItemController?
     private var hotKey: GlobalHotKey?
@@ -18,7 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         let sampler = Sampler(store: store)
         self.sampler = sampler
-        let statusItem = StatusItemController(store: store, settings: settings, terminator: terminator,
+        let statusItem = StatusItemController(store: store, settings: settings, terminator: terminator, license: license,
                                               openMainWindow: { [weak self] in self?.showMainWindow() })
         statusItem.onPopoverVisibility = { [weak self] visible in
             self?.popoverVisible = visible
@@ -43,6 +44,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         terminator.displayName = { [store] in store.identities.identity(for: $0).name }
+        store.onIngest = { [weak self] in
+            guard let self else { return }
+            let wasExpired = license.isExpired
+            license.refresh()
+            if license.isExpired != wasExpired { pushDemand() }
+        }
         observeSettings()
         Task { await sampler.start() }
         applyDebugFlags()
@@ -72,7 +79,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Re-evaluated whenever a surface appears/disappears or the window's tab changes.
     func pushDemand() {
+        license.refresh()
         var interests: Set<SamplingInterest> = [.systemOverview]
+        if license.isExpired {   // locked: keep the icon alive, sample nothing else
+            let demand = SamplingDemand(interests: interests, popoverVisible: false, windowVisible: false,
+                                        screenAsleep: screenAsleep, thermalState: store.thermalState, restSeconds: settings.restIntervalSeconds)
+            Task { [sampler] in await sampler?.setDemand(demand) }
+            return
+        }
         if popoverVisible { interests.insert(.processes) }
         if windowVisible && mainModel.tab == .processes { interests.formUnion([.processes, .processDetails]) }
         if windowVisible && mainModel.tab == .sensors { interests.insert(.sensors) }

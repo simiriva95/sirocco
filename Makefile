@@ -6,7 +6,9 @@ DIST_DIR   := dist
 XCB        := xcodebuild -project $(PROJECT) -scheme $(SCHEME) -destination 'platform=macOS,arch=arm64' -derivedDataPath $(BUILD_DIR)
 QUIET      := -quiet
 
-.PHONY: gen dev build run test lint clean notarize
+.PHONY: gen dev build run test lint clean notarize unlock-hash release
+RELEASE_REPO := simiriva95/sirocco-releases
+VERSION := $(shell sed -n 's/.*MARKETING_VERSION: //p' project.yml)
 
 ## gen: regenerate the Xcode project from project.yml (never edit the .xcodeproj by hand)
 gen:
@@ -40,6 +42,14 @@ lint: gen
 
 clean:
 	rm -rf $(BUILD_DIR) $(DIST_DIR) $(PROJECT)
+
+## unlock-hash: set the owner's unlock password (typed locally, only its PBKDF2 hash is stored)
+unlock-hash:
+	swift Tools/unlock-hash.swift
+
+## release: build and publish dist/Sirocco.zip to the public releases repo (source stays private)
+release: build
+	gh release create v$(VERSION) dist/Sirocco.zip -R $(RELEASE_REPO) --title "Sirocco $(VERSION)" --notes-file CHANGELOG.md
 
 ## notarize: phase 2 (M6). Requires a Developer ID certificate.
 notarize:

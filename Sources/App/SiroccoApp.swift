@@ -6,7 +6,7 @@ struct SiroccoApp: App {
 
     var body: some Scene {
         Settings {
-            SettingsView().environment(delegate.settings)
+            SettingsView().environment(delegate.settings).environment(delegate.license)
         }
         .commands {
             CommandGroup(after: .newItem) {

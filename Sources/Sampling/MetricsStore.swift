@@ -30,8 +30,12 @@ final class MetricsStore {
 
     var thermalState: ProcessInfo.ThermalState { latest?.thermalState ?? .nominal }
 
+    /// Called on every ingest; the app delegate uses it to re-check the trial clock.
+    @ObservationIgnored var onIngest: (() -> Void)?
+
     func ingest(_ snapshot: SystemSnapshot) {
         latest = snapshot
+        onIngest?()
         if let cpu = snapshot.cpu {
             cpuHistory.append(cpu.total)
             performance.append(PerformanceSample(timestamp: snapshot.timestamp, cpu: cpu, memory: snapshot.memory,

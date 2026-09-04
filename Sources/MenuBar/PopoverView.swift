@@ -7,6 +7,7 @@ struct PopoverView: View {
     @Environment(MetricsStore.self) private var store
     @Environment(ProcessTerminator.self) private var terminator
     @Environment(AppSettings.self) private var settings
+    @Environment(LicenseManager.self) private var license
     @State private var query = ""
     @State private var groupToConfirm: ProcessGroup?
     @State private var failureMessage: String?
@@ -16,6 +17,10 @@ struct PopoverView: View {
     private static let maxRows = 8
 
     var body: some View {
+        if license.isExpired { LockedView() } else { content }
+    }
+
+    private var content: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             DiagnosisRow(diagnosis: store.diagnosis)
             chartsRow
@@ -116,6 +121,7 @@ struct PopoverView: View {
                 Text("Sirocco · \(percent(me.cpuFraction)) CPU · \(Format.bytes(me.physFootprintBytes))")
                     .font(DS.Typography.secondary).foregroundStyle(.secondary)
             }
+            if case .trial = license.state { LicenseStatusText() }
             Spacer()
             Button(String(localized: "Open Sirocco")) { openWindow() }
                 .buttonStyle(.link).font(DS.Typography.secondary)
