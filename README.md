@@ -4,6 +4,8 @@ A system monitor and task manager for macOS with Windows-Task-Manager coverage a
 conventions of a modern Mac app. Built for one question first: **"my Mac is getting hot,
 why, and how do I stop it?"**
 
+<p align="center"><img src="docs/screenshots/overview.png" width="820" alt="Sirocco main window, Overview tab: the one-line diagnosis, CPU / memory / thermal cards with history, top consumers by CPU, memory and energy"></p>
+
 - **Menu bar**: a live sparkline plus a thermal glyph, drawn at runtime. One click opens a
   popover with a one-sentence diagnosis, CPU / memory / thermal mini-charts, the top
   consumers grouped by app, and inline terminate (SIGTERM, explicit escalation to SIGKILL).
@@ -28,6 +30,19 @@ why, and how do I stop it?"**
   and network rates.
 - **Settings**: icon content, appearance, launch at login, sampling interval at rest, CPU
   thresholds, memory units (1024 vs 1000), protected processes, shortcut reference.
+
+<table>
+  <tr>
+    <td width="34%"><img src="docs/screenshots/popover.png" alt="Menu bar popover: diagnosis, CPU / memory / thermal mini-charts, process search, top consumers grouped by app with inline terminate"></td>
+    <td><img src="docs/screenshots/processes.png" alt="Processes tab: apps grouped with their helpers, sortable columns for energy, CPU, memory, threads, wakeups, disk I/O"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/screenshots/performance.png" alt="Performance tab: CPU total with Performance/Efficiency split, per-core heatmap, memory stacked by type"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/screenshots/sensors.png" alt="Sensors tab: CPU die / GPU / SSD temperatures with history, fan RPM against SMC min/max, system power, battery, raw sensor list"></td>
+  </tr>
+</table>
 
 Accessibility: every chart and card carries a spoken summary, nothing is conveyed by color
 alone (shapes, symbols and text accompany every color), Increase Contrast adds borders to
