@@ -14,3 +14,6 @@ dist/
 # Tooling
 .swiftpm/
 *.log
+
+# Owner unlock hash: generated locally with `make unlock-hash`, never committed
+Sources/Licensing/UnlockSecret.swift

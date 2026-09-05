@@ -32,4 +32,4 @@ enum UnlockSecret {
 
 """
 try source.write(toFile: "Sources/Licensing/UnlockSecret.swift", atomically: true, encoding: .utf8)
-print("Written Sources/Licensing/UnlockSecret.swift. Rebuild with `make build`.")
+print("Written Sources/Licensing/UnlockSecret.swift (git-ignored). Rebuild with `make build` or `make release`.")

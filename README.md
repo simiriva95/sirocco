@@ -37,7 +37,9 @@ Italian and English.
 **Trial**: 14 days from first launch, then the app locks (popover and window show a lock
 screen; the menu bar icon keeps working). The owner unlocks with a password whose salted
 PBKDF2 hash is embedded at build time (`make unlock-hash`, typed locally, never stored in
-clear). This is a deterrent, not DRM: anyone can build from source without the trial.
+clear). `UnlockSecret.swift` is git-ignored; a fresh clone builds from the empty template, so
+nobody can unlock a build that is not the owner's. This is a deterrent, not DRM: anyone can
+build from source without the trial.
 
 Status: **M5 + trial** — feature-complete for phase 1; notarization and Sparkle next.
 

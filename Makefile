@@ -12,6 +12,7 @@ VERSION := $(shell sed -n 's/.*MARKETING_VERSION: //p' project.yml)
 
 ## gen: regenerate the Xcode project from project.yml (never edit the .xcodeproj by hand)
 gen:
+	@[ -f Sources/Licensing/UnlockSecret.swift ] || cp Sources/Licensing/UnlockSecret.swift.example Sources/Licensing/UnlockSecret.swift
 	xcodegen generate --quiet
 
 ## dev: debug build + launch
