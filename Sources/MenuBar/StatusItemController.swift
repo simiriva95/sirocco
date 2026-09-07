@@ -14,14 +14,17 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     private var lastModel: MenuBarIconModel?
     private var escapeMonitor: Any?
     private let openMainWindow: () -> Void
+    private let checkForUpdates: () -> Void
 
     var onPopoverVisibility: ((Bool) -> Void)?
 
-    init(store: MetricsStore, settings: AppSettings, terminator: ProcessTerminator, license: LicenseManager, openMainWindow: @escaping () -> Void) {
+    init(store: MetricsStore, settings: AppSettings, terminator: ProcessTerminator, license: LicenseManager, openMainWindow: @escaping () -> Void,
+         checkForUpdates: @escaping () -> Void) {
         self.store = store
         self.settings = settings
         self.terminator = terminator
         self.openMainWindow = openMainWindow
+        self.checkForUpdates = checkForUpdates
         super.init()
 
         item.button?.target = self
@@ -99,6 +102,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
         let menu = NSMenu()
         menu.addItem(withTitle: String(localized: "Open Sirocco"), action: #selector(openWindowAction), keyEquivalent: "o").target = self
         menu.addItem(withTitle: String(localized: "Settings…"), action: #selector(openSettings), keyEquivalent: ",").target = self
+        menu.addItem(withTitle: String(localized: "Check for Updates…"), action: #selector(checkUpdatesAction), keyEquivalent: "").target = self
         menu.addItem(.separator())
         menu.addItem(withTitle: String(localized: "Quit Sirocco"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q")
         item.menu = menu
@@ -107,6 +111,7 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     }
 
     @objc private func openWindowAction() { openMainWindow() }
+    @objc private func checkUpdatesAction() { checkForUpdates() }
 
     @objc private func openSettings() {
         NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)

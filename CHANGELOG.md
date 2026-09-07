@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0 — 2026-09-07
+
+- In-app updates with Sparkle 2: daily automatic check (toggle in Settings › Updates), "Check
+  for Updates…" in the status menu, the app menu and Settings. Appcast and EdDSA signatures are
+  produced by `make release` and published in the downloads repository.
+- Installer: `Sirocco-x.y.z.dmg` with an Applications shortcut replaces the zip.
+
 ## 0.6.0 — 2026-09-03
 
 - 14-day trial from first launch (install date kept in UserDefaults and Application Support,

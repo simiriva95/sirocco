@@ -6,7 +6,9 @@ DIST_DIR   := dist
 XCB        := xcodebuild -project $(PROJECT) -scheme $(SCHEME) -destination 'platform=macOS,arch=arm64' -derivedDataPath $(BUILD_DIR)
 QUIET      := -quiet
 
-.PHONY: gen dev build run test lint clean notarize unlock-hash release
+.PHONY: gen dev build run test lint clean notarize unlock-hash release dmg appcast
+SPARKLE_BIN := $(BUILD_DIR)/SourcePackages/artifacts/sparkle/Sparkle/bin
+RELEASES_DIR := $(BUILD_DIR)/releases-repo
 RELEASE_REPO := simiriva95/sirocco-releases
 VERSION := $(shell sed -n 's/.*MARKETING_VERSION: //p' project.yml)
 
@@ -21,13 +23,21 @@ dev: gen
 	@pkill -x $(APP) || true
 	open $(BUILD_DIR)/Build/Products/Debug/$(APP).app
 
-## build: release build, exported to dist/ as .app and .zip
+## build: release build, exported to dist/ as .app
 build: gen
 	$(XCB) -configuration Release build $(QUIET)
 	rm -rf $(DIST_DIR) && mkdir -p $(DIST_DIR)
 	cp -R $(BUILD_DIR)/Build/Products/Release/$(APP).app $(DIST_DIR)/
-	cd $(DIST_DIR) && ditto -c -k --keepParent $(APP).app $(APP).zip
-	@echo "→ $(DIST_DIR)/$(APP).zip"
+	@echo "→ $(DIST_DIR)/$(APP).app"
+
+## dmg: the installer — a disk image with the app and a link to /Applications
+dmg: build
+	rm -rf $(DIST_DIR)/dmg && mkdir -p $(DIST_DIR)/dmg
+	cp -R $(DIST_DIR)/$(APP).app $(DIST_DIR)/dmg/
+	ln -s /Applications $(DIST_DIR)/dmg/Applications
+	hdiutil create -quiet -volname "$(APP) $(VERSION)" -srcfolder $(DIST_DIR)/dmg -ov -format UDZO $(DIST_DIR)/$(APP)-$(VERSION).dmg
+	rm -rf $(DIST_DIR)/dmg
+	@echo "→ $(DIST_DIR)/$(APP)-$(VERSION).dmg"
 
 ## run: launch the last debug build without rebuilding
 run:
@@ -48,9 +58,19 @@ clean:
 unlock-hash:
 	swift Tools/unlock-hash.swift
 
-## release: build and publish dist/Sirocco.zip to the public releases repo (source stays private)
-release: build
-	gh release create v$(VERSION) dist/Sirocco.zip -R $(RELEASE_REPO) --title "Sirocco $(VERSION)" --notes-file CHANGELOG.md
+## release: dmg → GitHub release in the downloads repo → EdDSA-signed appcast pushed there
+release: dmg
+	gh release create v$(VERSION) $(DIST_DIR)/$(APP)-$(VERSION).dmg -R $(RELEASE_REPO) --title "$(APP) $(VERSION)" \
+		--notes "$$(awk '/^## /{n++} n==1' CHANGELOG.md)"
+	$(MAKE) appcast
+
+## appcast: regenerate appcast.xml from dist/*.dmg (signs with the EdDSA key in the login keychain)
+appcast:
+	rm -rf $(RELEASES_DIR) && gh repo clone $(RELEASE_REPO) $(RELEASES_DIR) -- -q
+	$(SPARKLE_BIN)/generate_appcast --download-url-prefix https://github.com/$(RELEASE_REPO)/releases/download/v$(VERSION)/ \
+		-o $(RELEASES_DIR)/appcast.xml $(DIST_DIR)
+	cd $(RELEASES_DIR) && git add appcast.xml && git commit -qm "appcast: $(APP) $(VERSION)" && git push -q origin main
+	@echo "→ appcast published"
 
 ## notarize: phase 2 (M6). Requires a Developer ID certificate.
 notarize:

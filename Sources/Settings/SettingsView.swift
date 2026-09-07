@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(AppSettings.self) private var settings
     @Environment(LicenseManager.self) private var license
+    @Environment(Updater.self) private var updater
     @State private var newProtectedName = ""
     @State private var unlockPassword = ""
     @State private var unlockFailed = false
@@ -62,6 +63,15 @@ struct SettingsView: View {
                     Button(String(localized: "Add"), action: addProtected).disabled(newProtectedName.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             }
+            Section(String(localized: "Updates")) {
+                @Bindable var updater = updater
+                Toggle(String(localized: "Check for updates automatically"), isOn: $updater.automaticallyChecks)
+                HStack {
+                    Text("Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "—")").foregroundStyle(.secondary)
+                    Spacer()
+                    Button(String(localized: "Check for Updates…")) { updater.checkForUpdates() }.disabled(!updater.canCheck)
+                }
+            }
             Section(String(localized: "License")) {
                 LabeledContent(String(localized: "Status")) { LicenseStatusText() }
                 if license.state != .unlocked {
@@ -80,7 +90,7 @@ struct SettingsView: View {
             }
         }
         .formStyle(.grouped)
-        .frame(width: 460, height: 720)
+        .frame(width: 460, height: 800)
     }
 
     private func attemptUnlock() {

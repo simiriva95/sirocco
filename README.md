@@ -56,7 +56,8 @@ clear). `UnlockSecret.swift` is git-ignored; a fresh clone builds from the empty
 nobody can unlock a build that is not the owner's. This is a deterrent, not DRM: anyone can
 build from source without the trial.
 
-Status: **M5 + trial** — feature-complete for phase 1; notarization and Sparkle next.
+Status: **0.7** — feature-complete for phase 1, Sparkle updates in place. Missing for a
+commercial release: Developer ID signing + notarization, purchase flow.
 
 ## Install
 
@@ -64,7 +65,8 @@ Sirocco is not on the App Store and cannot be: a sandboxed app cannot list, insp
 signal other processes. Two options:
 
 **From GitHub Releases** — [simiriva95/sirocco-releases](https://github.com/simiriva95/sirocco-releases):
-download `Sirocco.zip`, unzip, move `Sirocco.app` to `/Applications`. Builds are ad-hoc
+download `Sirocco-x.y.z.dmg`, open it, drag `Sirocco` onto `Applications`. Updates arrive
+in-app through Sparkle (EdDSA-signed appcast in the same repository). Builds are ad-hoc
 signed and not notarized (no Apple Developer ID yet), so Gatekeeper refuses the first launch;
 clear the quarantine flag once:
 
@@ -80,7 +82,8 @@ git clone https://github.com/simiriva95/sirocco.git && cd sirocco
 make build      # → dist/Sirocco.app and dist/Sirocco.zip
 ```
 
-`make dev` builds Debug and launches; `make test` runs the unit tests.
+`make dev` builds Debug and launches; `make test` runs the unit tests; `make dmg` builds the
+installer; `make release` publishes the DMG and regenerates the signed appcast.
 
 Requirements: macOS 14+, Apple Silicon (arm64 only — Intel is not supported).
 
@@ -199,8 +202,10 @@ Sources/
 Tests/            Metrics, Diagnosis, aggregation, policies — fixtures, no I/O
 ```
 
-Swift 6 with strict concurrency, SwiftUI + AppKit, zero third-party dependencies. The
-Xcode project is generated from `project.yml`; never edit the `.xcodeproj`.
+Swift 6 with strict concurrency, SwiftUI + AppKit. One dependency: Sparkle 2 (BSD) for
+updates. The Xcode project is generated from `project.yml`; never edit the `.xcodeproj`.
+The hardened runtime currently carries `disable-library-validation` because an ad-hoc app
+cannot load a framework signed by another team; it goes away with a Developer ID.
 
 Debug switches: `SIROCCO_POPOVER=open|cycle` drives the popover without a mouse;
 `SIROCCO_WINDOW=1|processes|performance|…` opens the main window (on a tab) at launch;

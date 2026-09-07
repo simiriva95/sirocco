@@ -6,6 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let store = MetricsStore()
     let terminator = ProcessTerminator()
     let license = LicenseManager()
+    let updater = Updater()
     private(set) lazy var mainModel = MainWindowModel(store: store, terminator: terminator)
     private(set) lazy var mainWindow = MainWindowController(model: mainModel, store: store, terminator: terminator, settings: settings, license: license)
     private var sampler: Sampler?
@@ -20,7 +21,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let sampler = Sampler(store: store)
         self.sampler = sampler
         let statusItem = StatusItemController(store: store, settings: settings, terminator: terminator, license: license,
-                                              openMainWindow: { [weak self] in self?.showMainWindow() })
+                                              openMainWindow: { [weak self] in self?.showMainWindow() },
+                                              checkForUpdates: { [weak self] in self?.updater.checkForUpdates() })
         statusItem.onPopoverVisibility = { [weak self] visible in
             self?.popoverVisible = visible
             self?.pushDemand()

@@ -6,11 +6,14 @@ struct SiroccoApp: App {
 
     var body: some Scene {
         Settings {
-            SettingsView().environment(delegate.settings).environment(delegate.license)
+            SettingsView().environment(delegate.settings).environment(delegate.license).environment(delegate.updater)
         }
         .commands {
             CommandGroup(after: .newItem) {
                 Button(String(localized: "Open Sirocco")) { delegate.showMainWindow() }.keyboardShortcut("o")
+            }
+            CommandGroup(after: .appInfo) {
+                Button(String(localized: "Check for Updates…")) { delegate.updater.checkForUpdates() }
             }
             CommandGroup(after: .textEditing) {
                 Button(String(localized: "Find")) { delegate.mainModel.searchFocusRequest += 1 }.keyboardShortcut("f")
