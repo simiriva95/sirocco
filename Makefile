@@ -67,7 +67,8 @@ release: dmg
 
 ## appcast: regenerate appcast.xml from dist/*.dmg (signs with the EdDSA key in the login keychain)
 appcast:
-	rm -rf $(RELEASES_DIR) && gh repo clone $(RELEASE_REPO) $(RELEASES_DIR) -- -q
+	rm -rf $(RELEASES_DIR) ~/Library/Caches/Sparkle_generate_appcast && gh repo clone $(RELEASE_REPO) $(RELEASES_DIR) -- -q
+	rm -f $(RELEASES_DIR)/appcast.xml   # regenerate from dist/ only: one item, the current version
 	$(SPARKLE_BIN)/generate_appcast --download-url-prefix https://github.com/$(RELEASE_REPO)/releases/download/v$(VERSION)/ \
 		-o $(RELEASES_DIR)/appcast.xml $(DIST_DIR)
 	cd $(RELEASES_DIR) && git add appcast.xml && git commit -qm "appcast: $(APP) $(VERSION)" && git push -q origin main
