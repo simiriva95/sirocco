@@ -60,6 +60,7 @@ unlock-hash:
 
 ## release: dmg → GitHub release in the downloads repo → EdDSA-signed appcast pushed there
 release: dmg
+	@[ "$$(defaults read $(PWD)/$(DIST_DIR)/$(APP).app/Contents/Info.plist CFBundleShortVersionString)" = "$(VERSION)" ] || { echo "Info.plist version mismatch"; exit 1; }
 	gh release create v$(VERSION) $(DIST_DIR)/$(APP)-$(VERSION).dmg -R $(RELEASE_REPO) --title "$(APP) $(VERSION)" \
 		--notes "$$(awk '/^## /{n++} n==1' CHANGELOG.md)"
 	$(MAKE) appcast
